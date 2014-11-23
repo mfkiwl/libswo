@@ -53,5 +53,6 @@ AC_SUBST(AM_LIBTOOLFLAGS, '--silent')
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libswo/Makefile])
+AC_CONFIG_FILES([libswo.pc])
 
 AC_OUTPUT

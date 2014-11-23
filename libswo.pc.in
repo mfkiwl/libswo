@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libswo
+Description: Library to decode SWO trace data
+Version: @VERSION@
+Requires.private:
+Libs: -L${libdir} -lswo
+Cflags: -I${includedir}

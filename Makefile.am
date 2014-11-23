@@ -19,3 +19,6 @@
 
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = libswo
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libswo.pc

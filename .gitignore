@@ -8,6 +8,7 @@ configure
 .deps
 *.la
 .libs
+libswo.pc
 libtool
 *.lo
 m4
