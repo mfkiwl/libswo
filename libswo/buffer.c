@@ -80,7 +80,10 @@ int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 	if (length + offset > ctx->bytes_available)
 		return 0;
 
-	if (ctx->read_pos + length + offset > ctx->size) {
+	if (ctx->read_pos + offset > ctx->size) {
+		tmp = ctx->read_pos + offset - ctx->size;
+		memcpy(buffer, ctx->buffer + tmp, length);
+	} else if (ctx->read_pos + offset + length > ctx->size) {
 		tmp = ctx->size - ctx->read_pos - offset;
 		memcpy(buffer, ctx->buffer + ctx->read_pos + offset, tmp);
 		memcpy(buffer + tmp, ctx->buffer, length - tmp);
