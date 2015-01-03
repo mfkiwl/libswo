@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,9 @@
  *
  * Internal libswo header file.
  */
+
+/** Macro to mark private libswo symbol. */
+#define LIBSWO_PRIV __attribute__ ((visibility ("hidden")))
 
 /** Calculate the minimum of two numeric values. */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -68,16 +71,16 @@ struct libswo_context {
 	size_t bytes_available;
 };
 
-int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
+LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length);
-int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
+LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset);
-int buffer_remove(struct libswo_context *ctx, size_t length);
-void buffer_flush(struct libswo_context *ctx);
+LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length);
+LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
 
-void log_err(struct libswo_context *ctx, const char *format, ...);
-void log_warn(struct libswo_context *ctx, const char *format, ...);
-void log_info(struct libswo_context *ctx, const char *format, ...);
-void log_dbg(struct libswo_context *ctx, const char *format, ...);
+LIBSWO_PRIV void log_err(struct libswo_context *ctx, const char *format, ...);
+LIBSWO_PRIV void log_warn(struct libswo_context *ctx, const char *format, ...);
+LIBSWO_PRIV void log_info(struct libswo_context *ctx, const char *format, ...);
+LIBSWO_PRIV void log_dbg(struct libswo_context *ctx, const char *format, ...);
 
 #endif /* LIBSWO_LIBSWO_INTERNAL_H */

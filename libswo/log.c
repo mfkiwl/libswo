@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-int libswo_log_set_level(struct libswo_context *ctx, int level)
+LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level)
 {
 	if (!ctx)
 		return LIBSWO_ERR_ARG;
@@ -60,7 +60,7 @@ int libswo_log_set_level(struct libswo_context *ctx, int level)
  * 	   on failure. See #libswo_log_level for a description of each
  * 	   individual log level.
  */
-int libswo_log_get_level(const struct libswo_context *ctx)
+LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx)
 {
 	if (!ctx)
 		return LIBSWO_ERR_ARG;
@@ -85,7 +85,7 @@ static void log_vprintf(struct libswo_context *ctx, int level,
 }
 
 /** @private */
-void log_err(struct libswo_context *ctx, const char *format, ...)
+LIBSWO_PRIV void log_err(struct libswo_context *ctx, const char *format, ...)
 {
 	va_list args;
 
@@ -98,7 +98,7 @@ void log_err(struct libswo_context *ctx, const char *format, ...)
 }
 
 /** @private */
-void log_warn(struct libswo_context *ctx, const char *format, ...)
+LIBSWO_PRIV void log_warn(struct libswo_context *ctx, const char *format, ...)
 {
 	va_list args;
 
@@ -111,7 +111,7 @@ void log_warn(struct libswo_context *ctx, const char *format, ...)
 }
 
 /** @private */
-void log_info(struct libswo_context *ctx, const char *format, ...)
+LIBSWO_PRIV void log_info(struct libswo_context *ctx, const char *format, ...)
 {
 	va_list args;
 
@@ -124,7 +124,7 @@ void log_info(struct libswo_context *ctx, const char *format, ...)
 }
 
 /** @private */
-void log_dbg(struct libswo_context *ctx, const char *format, ...)
+LIBSWO_PRIV void log_dbg(struct libswo_context *ctx, const char *format, ...)
 {
 	va_list args;
 

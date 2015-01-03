@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -485,7 +485,7 @@ static void handle_packet(struct libswo_context *ctx)
  * @retval LIBSWO_ERR Other error conditions.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
+LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length)
 {
 	if (!ctx || !buffer)
@@ -508,7 +508,8 @@ int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
  * @return The number of decoded packets on success, or a negative error code
  * 	   on failure.
  */
-ssize_t libswo_decode(struct libswo_context *ctx, size_t limit, uint32_t flags)
+LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
+		uint32_t flags)
 {
 	int ret;
 	uint8_t header;
@@ -592,7 +593,7 @@ ssize_t libswo_decode(struct libswo_context *ctx, size_t limit, uint32_t flags)
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid argument.
  */
-int libswo_set_callback(struct libswo_context *ctx,
+LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data)
 {
 	if (!ctx)

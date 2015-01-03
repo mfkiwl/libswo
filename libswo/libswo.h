@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -277,21 +277,24 @@ struct libswo_context;
 typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);
 
-int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
+/** Macro to mark public libswo API symbol. */
+#define LIBSWO_API __attribute__ ((visibility ("default")))
+
+LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size);
-void libswo_exit(struct libswo_context *ctx);
+LIBSWO_API void libswo_exit(struct libswo_context *ctx);
 
-int libswo_log_set_level(struct libswo_context *ctx, int level);
-int libswo_log_get_level(const struct libswo_context *ctx);
+LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
+LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx);
 
-int libswo_set_callback(struct libswo_context *ctx,
+LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data);
-int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
+LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length);
-ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
+LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
 		uint32_t flags);
 
-const char *libswo_strerror(int error_code);
-const char *libswo_strerror_name(int error_code);
+LIBSWO_API const char *libswo_strerror(int error_code);
+LIBSWO_API const char *libswo_strerror_name(int error_code);
 
 #endif /* LIBSWO_LIBSWO_H */

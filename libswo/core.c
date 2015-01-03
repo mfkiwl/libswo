@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@
  * @retval LIBSWO_ERR_ARG Invalid arguments.
  * @retval LIBSWO_ERR_MALLOC Memory allocation error.
  */
-int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
+LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size)
 {
 	struct libswo_context *context;
@@ -91,7 +91,7 @@ int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
  *
  * @param[in,out] ctx libswo context.
  */
-void libswo_exit(struct libswo_context *ctx)
+LIBSWO_API void libswo_exit(struct libswo_context *ctx)
 {
 	if (!ctx)
 		return;

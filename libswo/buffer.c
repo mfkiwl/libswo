@@ -1,7 +1,7 @@
 /*
  * This file is part of the swodec project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
  * @return 1 on success, or 0 if there is not enough space left to write the
  * 	   requested number of bytes.
  */
-int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
+LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length)
 {
 	size_t tmp;
@@ -72,7 +72,7 @@ int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
  * @return 1 on success, or 0 if there are not enough data to peek the
  * 	   requested number of bytes.
  */
-int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
+LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset)
 {
 	size_t tmp;
@@ -103,7 +103,7 @@ int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
  * @return 1 on success, or 0 if there are not enough bytes in the buffer to be
  * 	   removed.
  */
-int buffer_remove(struct libswo_context *ctx, size_t length)
+LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length)
 {
 	if (length > ctx->bytes_available)
 		return 0;
@@ -119,7 +119,7 @@ int buffer_remove(struct libswo_context *ctx, size_t length)
  *
  * @param[in,out] ctx libswo context.
  */
-void buffer_flush(struct libswo_context *ctx)
+LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx)
 {
 	ctx->bytes_available = 0;
 	ctx->read_pos = 0;

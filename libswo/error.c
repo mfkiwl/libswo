@@ -1,7 +1,7 @@
 /*
  * This file is part of the libswo project.
  *
- * Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+ * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
  *         <i>unknown error</i> if the error code is not known. The string is
  *         null-terminated and must not be free'd by the caller.
  */
-const char *libswo_strerror(int error_code)
+LIBSWO_API const char *libswo_strerror(int error_code)
 {
 	switch (error_code) {
 	case LIBSWO_OK:
@@ -59,7 +59,7 @@ const char *libswo_strerror(int error_code)
  *         string <i>unknown error code</i> if the error code is not known. The
  *         string is null-terminated and must not be free'd by the caller.
  */
-const char *libswo_strerror_name(int error_code)
+LIBSWO_API const char *libswo_strerror_name(int error_code)
 {
 	switch (error_code) {
 	case LIBSWO_OK:
