@@ -56,6 +56,13 @@ enum libswo_log_level {
 	LIBSWO_LOG_LEVEL_DEBUG = 4
 };
 
+
+/** Default libswo log domain. */
+#define LIBSWO_LOG_DOMAIN_DEFAULT	"libswo: "
+
+/** Maximum length of a libswo log domain in bytes. */
+#define LIBSWO_LOG_DOMAIN_MAX_LENGTH	32
+
 /** Packet types. */
 enum libswo_packet_type {
 	/** Synchronization packet. */
@@ -294,6 +301,9 @@ LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx);
 LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
 		libswo_log_callback callback, void *user_data);
+LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
+		const char *domain);
+LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx);
 
 LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data);

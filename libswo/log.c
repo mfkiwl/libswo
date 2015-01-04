@@ -96,6 +96,58 @@ LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
 	return LIBSWO_OK;
 }
 
+/**
+ * Set the libswo log domain.
+ *
+ * The log domain is a string which is used as prefix for all log messages to
+ * differentiate them from messages of other libraries.
+ *
+ * The maximum length of the log domain is #LIBSWO_LOG_DOMAIN_MAX_LENGTH bytes,
+ * excluding the trailing null-terminator. A log domain which exceeds this
+ * length will be silently truncated.
+ *
+ * @param[in,out] ctx libswo context.
+ * @param[in] domain Log domain to use. To set the default log domain, use
+ * 		     #LIBSWO_LOG_DOMAIN_DEFAULT.
+ *
+ * @retval LIBSWO_OK Success.
+ * @retval LIBSWO_ERR Other error conditions.
+ * @retval LIBSWO_ERR_ARG Invalid arguments.
+ */
+LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
+		const char *domain)
+{
+	int ret;
+
+	if (!ctx || !domain)
+		return LIBSWO_ERR_ARG;
+
+	ret = snprintf(ctx->log_domain, LIBSWO_LOG_DOMAIN_MAX_LENGTH + 1, "%s",
+		domain);
+
+	if (ret < 0)
+		return LIBSWO_ERR;
+
+	return LIBSWO_OK;
+}
+
+/**
+ * Get the libswo log domain.
+ *
+ * @param[in] ctx libswo context.
+ *
+ * @return A string which contains the current log domain on success, or NULL
+ * 	   on failure. The string is null-terminated and must not be free'd by
+ * 	   the caller.
+ */
+LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx)
+{
+	if (!ctx)
+		return NULL;
+
+	return ctx->log_domain;
+}
+
 /** @private */
 LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
 		const char *format, va_list args, void *user_data)
@@ -109,7 +161,9 @@ LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
 	if (level > ctx->log_level)
 		return 0;
 
-	fprintf(stderr, "libswo: ");
+	if (ctx->log_domain[0] != '\0')
+		fprintf(stderr, "%s", ctx->log_domain);
+
 	vfprintf(stderr, format, args);
 	fprintf(stderr, "\n");
 

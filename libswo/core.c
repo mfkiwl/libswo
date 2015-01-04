@@ -45,6 +45,7 @@
 LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size)
 {
+	int ret;
 	struct libswo_context *context;
 
 	if (!ctx || !buffer_size)
@@ -54,6 +55,19 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 
 	if (!context)
 		return LIBSWO_ERR_MALLOC;
+
+	/* Show error and warning messages by default. */
+	context->log_level = LIBSWO_LOG_LEVEL_WARNING;
+
+	context->log_callback = &log_vprintf;
+	context->log_cb_user_data = NULL;
+
+	ret = libswo_log_set_domain(context, LIBSWO_LOG_DOMAIN_DEFAULT);
+
+	if (ret != LIBSWO_OK) {
+		free(context);
+		return ret;
+	}
 
 	if (buffer) {
 		context->free_buffer = 0;
@@ -66,12 +80,6 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		free(context);
 		return LIBSWO_ERR_MALLOC;
 	}
-
-	/* Show error and warning messages by default. */
-	context->log_level = LIBSWO_LOG_LEVEL_WARNING;
-
-	context->log_callback = &log_vprintf;
-	context->log_cb_user_data = NULL;
 
 	context->callback = NULL;
 	context->cb_user_data = NULL;

@@ -46,6 +46,9 @@ struct libswo_context {
 	/** User data to be passed to the log callback function. */
 	void *log_cb_user_data;
 
+	/** Log domain. */
+	char log_domain[LIBSWO_LOG_DOMAIN_MAX_LENGTH + 1];
+
 	/** Decoder callback function. */
 	libswo_decoder_callback callback;
 
