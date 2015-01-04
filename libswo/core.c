@@ -70,6 +70,9 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 	/* Show error and warning messages by default. */
 	context->log_level = LIBSWO_LOG_LEVEL_WARNING;
 
+	context->log_callback = &log_vprintf;
+	context->log_cb_user_data = NULL;
+
 	context->callback = NULL;
 	context->cb_user_data = NULL;
 

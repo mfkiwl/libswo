@@ -40,6 +40,12 @@ struct libswo_context {
 	/** Current log level. */
 	int log_level;
 
+	/** Log callback function. */
+	libswo_log_callback log_callback;
+
+	/** User data to be passed to the log callback function. */
+	void *log_cb_user_data;
+
 	/** Decoder callback function. */
 	libswo_decoder_callback callback;
 
@@ -78,6 +84,8 @@ LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length);
 LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
 
+LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
+		const char *format, va_list args, void *user_data);
 LIBSWO_PRIV void log_err(struct libswo_context *ctx, const char *format, ...);
 LIBSWO_PRIV void log_warn(struct libswo_context *ctx, const char *format, ...);
 LIBSWO_PRIV void log_info(struct libswo_context *ctx, const char *format, ...);

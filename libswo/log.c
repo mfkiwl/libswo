@@ -68,20 +68,52 @@ LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx)
 	return ctx->log_level;
 }
 
-/** @private */
-static void log_vprintf(struct libswo_context *ctx, int level,
-		const char *format, va_list args)
+/**
+ * Set the libswo log callback function.
+ *
+ * @param[in,out] ctx libswo context.
+ * @param[in] callback Callback function to use, or NULL to use the default log
+ * 		       function.
+ * @param[in] user_data User data to be passed to the callback function.
+ *
+ * @retval LIBSWO_OK Success.
+ * @retval LIBSWO_ERR_ARG Invalid arguments.
+ */
+LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
+		libswo_log_callback callback, void *user_data)
 {
+	if (!ctx)
+		return LIBSWO_ERR_ARG;
+
+	if (callback) {
+		ctx->log_callback = callback;
+		ctx->log_cb_user_data = user_data;
+	} else {
+		ctx->log_callback = &log_vprintf;
+		ctx->log_cb_user_data = NULL;
+	}
+
+	return LIBSWO_OK;
+}
+
+/** @private */
+LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
+		const char *format, va_list args, void *user_data)
+{
+	(void)user_data;
+
 	/*
 	 * Filter out messages with higher verbosity than the verbosity of the
 	 * current log level.
 	 */
 	if (level > ctx->log_level)
-		return;
+		return 0;
 
 	fprintf(stderr, "libswo: ");
 	vfprintf(stderr, format, args);
 	fprintf(stderr, "\n");
+
+	return 0;
 }
 
 /** @private */
@@ -93,7 +125,8 @@ LIBSWO_PRIV void log_err(struct libswo_context *ctx, const char *format, ...)
 		return;
 
 	va_start(args, format);
-	log_vprintf(ctx, LIBSWO_LOG_LEVEL_ERROR, format, args);
+	ctx->log_callback(ctx, LIBSWO_LOG_LEVEL_ERROR, format, args,
+		ctx->log_cb_user_data);
 	va_end(args);
 }
 
@@ -106,7 +139,8 @@ LIBSWO_PRIV void log_warn(struct libswo_context *ctx, const char *format, ...)
 		return;
 
 	va_start(args, format);
-	log_vprintf(ctx, LIBSWO_LOG_LEVEL_WARNING, format, args);
+	ctx->log_callback(ctx, LIBSWO_LOG_LEVEL_WARNING, format, args,
+		ctx->log_cb_user_data);
 	va_end(args);
 }
 
@@ -119,7 +153,8 @@ LIBSWO_PRIV void log_info(struct libswo_context *ctx, const char *format, ...)
 		return;
 
 	va_start(args, format);
-	log_vprintf(ctx, LIBSWO_LOG_LEVEL_INFO, format, args);
+	ctx->log_callback(ctx, LIBSWO_LOG_LEVEL_INFO, format, args,
+		ctx->log_cb_user_data);
 	va_end(args);
 }
 
@@ -132,6 +167,7 @@ LIBSWO_PRIV void log_dbg(struct libswo_context *ctx, const char *format, ...)
 		return;
 
 	va_start(args, format);
-	log_vprintf(ctx, LIBSWO_LOG_LEVEL_DEBUG, format, args);
+	ctx->log_callback(ctx, LIBSWO_LOG_LEVEL_DEBUG, format, args,
+		ctx->log_cb_user_data);
 	va_end(args);
 }

@@ -21,6 +21,7 @@
 #define LIBSWO_LIBSWO_H
 
 #include <stdlib.h>
+#include <stdarg.h>
 #include <stdint.h>
 
 /**
@@ -277,6 +278,10 @@ struct libswo_context;
 typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);
 
+/** Log callback function type. */
+typedef int (*libswo_log_callback)(struct libswo_context *ctx, int level,
+                const char *format, va_list args, void *user_data);
+
 /** Macro to mark public libswo API symbol. */
 #define LIBSWO_API __attribute__ ((visibility ("default")))
 
@@ -284,8 +289,11 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size);
 LIBSWO_API void libswo_exit(struct libswo_context *ctx);
 
+
 LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx);
+LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
+		libswo_log_callback callback, void *user_data);
 
 LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data);
