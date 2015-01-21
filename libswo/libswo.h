@@ -24,6 +24,10 @@
 #include <stdarg.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @file
  *
@@ -314,5 +318,9 @@ LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
 
 LIBSWO_API const char *libswo_strerror(int error_code);
 LIBSWO_API const char *libswo_strerror_name(int error_code);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* LIBSWO_LIBSWO_H */
