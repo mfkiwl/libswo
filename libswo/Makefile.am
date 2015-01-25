@@ -24,11 +24,14 @@ libswo_la_SOURCES = \
 	core.c \
 	decoder.c \
 	error.c \
-	log.c
+	log.c \
+	version.c
 
 libswo_la_LDFLAGS = $(LIBSWO_LIB_LDFLAGS)
 
 library_includedir = $(includedir)/libswo
-library_include_HEADERS = libswo.h
+library_include_HEADERS = \
+	libswo.h \
+	version.h
 
 noinst_HEADERS = libswo-internal.h

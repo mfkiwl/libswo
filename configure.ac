@@ -19,7 +19,14 @@
 
 AC_PREREQ([2.69])
 
-AC_INIT([libswo], [0.1.0], [BUG-REPORT-ADDRESS])
+# Package version of libswo. This is not the same as the libtool interface
+# version.
+m4_define([libswo_version_package_major], [0])
+m4_define([libswo_version_package_minor], [1])
+m4_define([libswo_version_package_micro], [0])
+m4_define([libswo_version_package], [libswo_version_package_major.libswo_version_package_minor.libswo_version_package_micro])
+
+AC_INIT([libswo], [libswo_version_package], [BUG-REPORT-ADDRESS])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -73,11 +80,24 @@ PKG_CHECK_MODULES([python27], [python-2.7 >= 2.7],
 # Check for Python setuptools.
 AX_PYTHON_MODULE([setuptools])
 
-LIBSWO_LIB_LDFLAGS=""
+# Libtool interface version of libswo. This is not the same as the package
+# version. For information about the versioning system of libtool, see:
+# http://www.gnu.org/software/libtool/manual/libtool.html#Libtool-versioning
+LIBSWO_VERSION_LIB_CURRENT=0
+LIBSWO_VERSION_LIB_REVISION=0
+LIBSWO_VERSION_LIB_AGE=0
+LIBSWO_VERSION_LIB="$LIBSWO_VERSION_LIB_CURRENT:$LIBSWO_VERSION_LIB_REVISION:$LIBSWO_VERSION_LIB_AGE"
+
+AC_SUBST(LIBSWO_VERSION_LIB_CURRENT)
+AC_SUBST(LIBSWO_VERSION_LIB_REVISION)
+AC_SUBST(LIBSWO_VERSION_LIB_AGE)
+AC_SUBST(LIBSWO_VERSION_LIB)
+
+LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIB"
 
 case $host_os in
 mingw*)
-	LIBSWO_LIB_LDFLAGS+="-no-undefined"
+	LIBSWO_LIB_LDFLAGS="$LIBSWO_LIB_LDFLAGS -no-undefined"
 esac
 
 AC_SUBST([LIBSWO_LIB_LDFLAGS])
@@ -145,8 +165,19 @@ elif test "x$python_msg" != "x"; then
 	python_msg=" ($python_msg)"
 fi
 
+LIBSWO_VERSION_PACKAGE_MAJOR=libswo_version_package_major
+LIBSWO_VERSION_PACKAGE_MINOR=libswo_version_package_minor
+LIBSWO_VERSION_PACKAGE_MICRO=libswo_version_package_micro
+LIBSWO_VERSION_PACKAGE=libswo_version_package
+
+AC_SUBST(LIBSWO_VERSION_PACKAGE_MAJOR)
+AC_SUBST(LIBSWO_VERSION_PACKAGE_MINOR)
+AC_SUBST(LIBSWO_VERSION_PACKAGE_MICRO)
+AC_SUBST(LIBSWO_VERSION_PACKAGE)
+
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libswo/Makefile])
+AC_CONFIG_FILES([libswo/version.h])
 AC_CONFIG_FILES([bindings/cxx/Makefile])
 AC_CONFIG_FILES([bindings/cxx/libswocxx.pc])
 AC_CONFIG_FILES([bindings/python/Makefile])

@@ -37,7 +37,8 @@ setup(
 			sources = ['swopy_wrap.cxx'],
 			library_dirs = [join(builddir, 'bindings/cxx/.libs')],
 			libraries = ['swocxx'],
-			include_dirs = [srcdir, join(srcdir, 'bindings/python'),
+			include_dirs = [srcdir, join(builddir, 'libswo'),
+				join(srcdir, 'bindings/python'),
 				join(srcdir, 'bindings/cxx')])
 	]
 )

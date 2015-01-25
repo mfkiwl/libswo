@@ -338,6 +338,19 @@ LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
 		const char *domain);
 LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx);
 
+/*--- version.c -------------------------------------------------------------*/
+
+LIBSWO_API int libswo_version_package_get_major(void);
+LIBSWO_API int libswo_version_package_get_minor(void);
+LIBSWO_API int libswo_version_package_get_micro(void);
+LIBSWO_API const char *libswo_version_package_get_string(void);
+LIBSWO_API int libswo_version_lib_get_current(void);
+LIBSWO_API int libswo_version_lib_get_revision(void);
+LIBSWO_API int libswo_version_lib_get_age(void);
+LIBSWO_API const char *libswo_version_lib_get_string(void);
+
+#include "version.h"
+
 #ifdef __cplusplus
 }
 #endif

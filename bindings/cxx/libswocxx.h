@@ -214,6 +214,19 @@ private:
 	DecoderCallbackHelper _decoder_callback;
 };
 
+class LIBSWO_API Version {
+public:
+	static int get_package_major(void);
+	static int get_package_minor(void);
+	static int get_package_micro(void);
+	static string get_package_string(void);
+
+	static int get_lib_current(void);
+	static int get_lib_revision(void);
+	static int get_lib_age(void);
+	static string get_lib_string(void);
+};
+
 }
 
 #endif /* LIBSWOCXX_H */

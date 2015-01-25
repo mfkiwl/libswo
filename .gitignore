@@ -26,3 +26,4 @@ Makefile.in
 *.o
 *.pyc
 stamp-h1
+version.h

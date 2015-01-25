@@ -1,0 +1,53 @@
+/*
+ * This file is part of the libswo project.
+ *
+ * Copyright (C) 2015 Marc Schink <swo-dev@marcschink.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef LIBSWO_VERSION_H
+#define LIBSWO_VERSION_H
+
+/**
+ * @file
+ *
+ * Package and library version macros.
+ */
+
+/** Major version number of the libswo package. */
+#define LIBSWO_VERSION_PACKAGE_MAJOR @LIBSWO_VERSION_PACKAGE_MAJOR@
+
+/** Minor version number of the libswo package. */
+#define LIBSWO_VERSION_PACKAGE_MINOR @LIBSWO_VERSION_PACKAGE_MINOR@
+
+/** Micro version number of the libswo package. */
+#define LIBSWO_VERSION_PACKAGE_MICRO @LIBSWO_VERSION_PACKAGE_MICRO@
+
+/** Version number string of the libswo package. */
+#define LIBSWO_VERSION_PACKAGE_STRING "@LIBSWO_VERSION_PACKAGE@"
+
+/** <i>Current</i> version number of the libswo libtool interface. */
+#define LIBSWO_VERSION_LIB_CURRENT @LIBSWO_VERSION_LIB_CURRENT@
+
+/** <i>Revision</i> version number of the libswo libtool interface. */
+#define LIBSWO_VERSION_LIB_REVISION @LIBSWO_VERSION_LIB_REVISION@
+
+/** <i>Age</i> version number of the libswo libtool interface. */
+#define LIBSWO_VERSION_LIB_AGE @LIBSWO_VERSION_LIB_AGE@
+
+/** Version number string of the libswo libtool interface. */
+#define LIBSWO_VERSION_LIB_STRING "@LIBSWO_VERSION_LIB@"
+
+#endif /* LIBSWO_VERSION_H */
