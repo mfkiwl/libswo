@@ -1,7 +1,7 @@
 ##
 ## This file is part of the libswo project.
 ##
-## Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
+## Copyright (C) 2015 Marc Schink <swo-dev@marcschink.de>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -17,13 +17,23 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = libswo
+lib_LTLIBRARIES = libswocxx.la
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libswo.pc
+libswocxx_la_SOURCES = \
+	Context.cpp \
+	Error.cpp \
+	Extension.cpp \
+	GlobalTimestamp1.cpp \
+	GlobalTimestamp2.cpp \
+	Hardware.cpp \
+	Instrumentation.cpp \
+	LocalTimestamp.cpp \
+	Overflow.cpp \
+	Packet.cpp \
+	Synchronization.cpp \
+	Unknown.cpp
 
-if BINDINGS_CXX
-SUBDIRS += bindings/cxx
-pkgconfig_DATA += bindings/cxx/libswocxx.pc
-endif
+libswocxx_la_LIBADD = $(top_srcdir)/libswo/libswo.la
+
+library_includedir = $(includedir)/libswocxx
+library_include_HEADERS = libswocxx.h

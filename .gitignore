@@ -9,6 +9,7 @@ configure
 *.la
 .libs
 libswo.pc
+libswocxx.pc
 libtool
 *.lo
 m4

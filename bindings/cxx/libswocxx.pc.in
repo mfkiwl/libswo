@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libswocxx
+Description: C++ bindings for libswo
+Version: @VERSION@
+Requires: libswo
+Requires.private:
+Libs: -L${libdir} -lswocxx
+Cflags: -I${includedir}
