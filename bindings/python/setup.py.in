@@ -1,8 +1,7 @@
-#!/bin/sh
 ##
 ## This file is part of the libswo project.
 ##
-## Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+## Copyright (C) 2015 Marc Schink <swo-dev@marcschink.de>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,10 +17,27 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-echo "Generating build system..."
+from setuptools import setup, Extension
+from os.path import join
 
-libtoolize --install --copy || exit 1
-aclocal -I m4 || exit 1
-autoheader || exit 1
-autoconf || exit 1
-automake --add-missing --copy || exit 1
+srcdir = '@top_srcdir@'
+builddir = '@top_builddir@'
+
+setup(
+	name = 'swopy',
+	version = '@VERSION@',
+	description = 'Python bindings for libswo',
+	author = 'Marc Schink',
+	author_email = 'swo-dev@marcschink.de',
+	license = 'GPLv3+',
+	zip_safe = False,
+	packages = ['swopy'],
+	ext_modules = [
+		Extension('_swopy',
+			sources = ['swopy_wrap.cxx'],
+			library_dirs = [join(builddir, 'bindings/cxx/.libs')],
+			libraries = ['swocxx'],
+			include_dirs = [srcdir, join(srcdir, 'bindings/python'),
+				join(srcdir, 'bindings/cxx')])
+	]
+)

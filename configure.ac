@@ -60,6 +60,19 @@ LT_INIT
 # Disable progress and informational output of libtool.
 AC_SUBST(AM_LIBTOOLFLAGS, '--silent')
 
+# Check for SWIG.
+AC_CHECK_PROG([HAVE_SWIG], [swig], [yes])
+
+# Check for Python interpreter.
+AM_PATH_PYTHON([2.7], [HAVE_PYTHON="yes"], [HAVE_PYTHON="no"])
+
+# Check for Python development files.
+PKG_CHECK_MODULES([python27], [python-2.7 >= 2.7],
+	[HAVE_PYTHON_DEV="yes"], [HAVE_PYTHON_DEV="no"])
+
+# Check for Python setuptools.
+AX_PYTHON_MODULE([setuptools])
+
 LIBSWO_LIB_LDFLAGS=""
 
 case $host_os in
@@ -73,16 +86,76 @@ AC_ARG_ENABLE(cxx, AS_HELP_STRING([--enable-cxx],
 	[enable C++ bindings [default=no]]),
 	[BINDINGS_CXX="$enableval"], [BINDINGS_CXX="no"])
 
+AC_ARG_ENABLE([python], AS_HELP_STRING([--enable-python],
+	[enable Python bindings [default=no]]),
+	[BINDINGS_PYTHON="$enableval"], [BINDINGS_PYTHON="no"])
+
+cxx_msg=""
+python_msg=""
+
+if test "x$HAVE_PYMOD_SETUPTOOLS" == "xno"; then
+	python_msg="Python setuptools required"
+	BINDINGS_PYTHON="no"
+fi
+
+if test "x$HAVE_SWIG" != "xyes"; then
+	python_msg="SWIG required"
+	BINDINGS_PYTHON="no"
+fi
+
+if test "x$HAVE_PYTHON_DEV" == "xno"; then
+	python_msg="Python development files required"
+	BINDINGS_PYTHON="no"
+fi
+
+if test "x$HAVE_PYTHON" == "xno"; then
+	python_msg="Python interpreter required"
+	BINDINGS_PYTHON="no"
+fi
+
+# Enable C++ bindings if not already enabled as they are required for Python
+# bindings.
+if test "x$BINDINGS_PYTHON$BINDINGS_CXX" == "xyesno"; then
+	cxx_msg="enabled for Python bindings"
+	BINDINGS_CXX="yes";
+fi
+
 if test "x$BINDINGS_CXX$HAVE_CXX" == "xyesno"; then
-	AC_MSG_ERROR([No compiler for C++ bindings found.])
+	cxx_msg="C++ compiler required"
+	BINDINGS_CXX="no"
+fi
+
+if test "x$BINDINGS_PYTHON$BINDINGS_CXX" == "xyesno"; then
+	python_msg="C++ bindings required"
+	BINDINGS_PYTHON="no"
 fi
 
 AM_CONDITIONAL(BINDINGS_CXX, [test "x$BINDINGS_CXX" == "xyes"])
+AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" == "xyes"])
+
+if test "x$cxx_msg" != "x"; then
+	cxx_msg=" ($cxx_msg)"
+elif test "x$enable_cxx" != "xyes"; then
+	cxx_msg=" (disabled)"
+fi
+
+if test "x$enable_python" != "xyes"; then
+	python_msg=" (disabled)"
+elif test "x$python_msg" != "x"; then
+	python_msg=" ($python_msg)"
+fi
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libswo/Makefile])
 AC_CONFIG_FILES([bindings/cxx/Makefile])
 AC_CONFIG_FILES([bindings/cxx/libswocxx.pc])
+AC_CONFIG_FILES([bindings/python/Makefile])
+AC_CONFIG_FILES([bindings/python/setup.py])
 AC_CONFIG_FILES([libswo.pc])
 
 AC_OUTPUT
+
+echo
+echo "Enabled language bindings:"
+echo " - C++ ............................ $BINDINGS_CXX$cxx_msg"
+echo " - Python ......................... $BINDINGS_PYTHON$python_msg"

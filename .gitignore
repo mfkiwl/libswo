@@ -1,5 +1,12 @@
 aclocal.m4
 autom4te.cache
+bindings/python/build/
+bindings/python/build-lock
+bindings/python/dist/
+bindings/python/setup.py
+bindings/python/swopy/
+bindings/python/swopy.egg-info/
+bindings/python/swopy_wrap.cxx
 build-aux
 config.h*
 config.log
@@ -9,12 +16,13 @@ configure
 doxy/
 *.la
 .libs
-libswo.pc
 libswocxx.pc
+libswo.pc
 libtool
 *.lo
 m4
 Makefile
 Makefile.in
 *.o
+*.pyc
 stamp-h1

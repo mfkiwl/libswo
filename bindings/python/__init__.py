@@ -1,8 +1,7 @@
-#!/bin/sh
 ##
 ## This file is part of the libswo project.
 ##
-## Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+## Copyright (C) 2015 Marc Schink <swo-dev@marcschink.de>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,10 +17,6 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 
-echo "Generating build system..."
+__import__("pkg_resources").declare_namespace(__name__)
 
-libtoolize --install --copy || exit 1
-aclocal -I m4 || exit 1
-autoheader || exit 1
-autoconf || exit 1
-automake --add-missing --copy || exit 1
+from .swopy import *
