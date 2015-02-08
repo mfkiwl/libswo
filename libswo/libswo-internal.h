@@ -30,9 +30,6 @@
  * Internal libswo header file.
  */
 
-/** Macro to mark private libswo symbol. */
-#define LIBSWO_PRIV __attribute__ ((visibility ("hidden")))
-
 /** Calculate the minimum of two numeric values. */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 

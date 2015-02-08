@@ -293,6 +293,9 @@ typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 typedef int (*libswo_log_callback)(struct libswo_context *ctx, int level,
                 const char *format, va_list args, void *user_data);
 
+/** Macro to mark private libswo symbol. */
+#define LIBSWO_PRIV __attribute__ ((visibility ("hidden")))
+
 /** Macro to mark public libswo API symbol. */
 #define LIBSWO_API __attribute__ ((visibility ("default")))
 
