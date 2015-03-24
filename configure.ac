@@ -24,6 +24,8 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 
+AC_CANONICAL_HOST
+
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 # Enable additional compiler warnings via -Wall and -Wextra. Use hidden
@@ -57,6 +59,15 @@ LT_INIT
 
 # Disable progress and informational output of libtool.
 AC_SUBST(AM_LIBTOOLFLAGS, '--silent')
+
+LIBSWO_LIB_LDFLAGS=""
+
+case $host_os in
+mingw*)
+	LIBSWO_LIB_LDFLAGS+="-no-undefined"
+esac
+
+AC_SUBST([LIBSWO_LIB_LDFLAGS])
 
 AC_ARG_ENABLE(cxx, AS_HELP_STRING([--enable-cxx],
 	[enable C++ bindings [default=no]]),

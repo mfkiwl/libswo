@@ -1,7 +1,7 @@
 ##
 ## This file is part of the libswo project.
 ##
-## Copyright (C) 2014 Marc Schink <swo-dev@marcschink.de>
+## Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@ libswo_la_SOURCES = \
 	decoder.c \
 	error.c \
 	log.c
+
+libswo_la_LDFLAGS = $(LIBSWO_LIB_LDFLAGS)
 
 library_includedir = $(includedir)/libswo
 library_include_HEADERS = libswo.h
