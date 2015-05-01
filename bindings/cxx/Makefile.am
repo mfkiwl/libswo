@@ -33,7 +33,8 @@ libswocxx_la_SOURCES = \
 	Synchronization.cpp \
 	Unknown.cpp
 
-libswocxx_la_LIBADD = $(top_srcdir)/libswo/libswo.la
+libswocxx_la_LIBADD = $(top_builddir)/libswo/libswo.la
+libswocxx_la_CXXFLAGS = -I$(top_srcdir)
 
 library_includedir = $(includedir)/libswocxx
 library_include_HEADERS = libswocxx.h
