@@ -27,3 +27,5 @@ if BINDINGS_CXX
 SUBDIRS += bindings/cxx
 pkgconfig_DATA += bindings/cxx/libswocxx.pc
 endif
+
+EXTRA_DIST = Doxyfile
