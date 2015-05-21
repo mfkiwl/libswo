@@ -184,7 +184,7 @@ public:
 	Context(uint8_t *buffer, size_t buffer_size);
 	~Context(void);
 
-	enum LogLevel get_log_level(void);
+	enum LogLevel get_log_level(void) const;
 	void set_log_level(enum LogLevel level);
 
 	string get_log_domain(void) const;

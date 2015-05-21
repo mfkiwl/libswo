@@ -49,7 +49,7 @@ Context::~Context(void)
 	libswo_exit(_context);
 }
 
-enum LogLevel Context::get_log_level(void)
+enum LogLevel Context::get_log_level(void) const
 {
 	int ret;
 
