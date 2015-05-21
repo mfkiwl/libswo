@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef LIBSWOCXX_H
+#define LIBSWOCXX_H
+
 #include <string>
 #include <stdexcept>
 #include <libswo/libswo.h>
@@ -197,3 +200,5 @@ private:
 };
 
 }
+
+#endif /* LIBSWOCXX_H */
