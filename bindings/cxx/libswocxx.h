@@ -190,7 +190,7 @@ public:
 	string get_log_domain(void) const;
 	void set_log_domain(string domain);
 
-	void set_callback(Callback callback, void *user_data);
+	void set_callback(Callback callback, void *user_data = NULL);
 
 	void feed(const uint8_t *data, size_t length);
 	size_t decode(size_t limit, uint32_t flags);
