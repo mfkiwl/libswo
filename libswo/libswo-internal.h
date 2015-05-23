@@ -36,46 +36,36 @@
 struct libswo_context {
 	/** Current log level. */
 	int log_level;
-
 	/** Log callback function. */
 	libswo_log_callback log_callback;
-
 	/** User data to be passed to the log callback function. */
 	void *log_cb_user_data;
-
 	/** Log domain. */
 	char log_domain[LIBSWO_LOG_DOMAIN_MAX_LENGTH + 1];
-
 	/** Decoder callback function. */
 	libswo_decoder_callback callback;
-
 	/** User data to be passed to the decoder callback function. */
 	void *cb_user_data;
-
 	/** Last decoded packet. */
 	union libswo_packet packet;
-
 	/** Buffer. */
 	uint8_t *buffer;
-
 	/** Buffer size. */
 	size_t size;
-
 	/**
 	 * Indicates whether the buffer was allocated during initialization and
 	 * must be free'ed on shutdown.
 	 */
 	int free_buffer;
-
 	/** Current read position of the buffer. */
 	size_t read_pos;
-
 	/** Current write position of the buffer. */
 	size_t write_pos;
-
 	/** Number of bytes in the buffer. */
 	size_t bytes_available;
 };
+
+/*--- buffer.c --------------------------------------------------------------*/
 
 LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length);
@@ -83,6 +73,8 @@ LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset);
 LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length);
 LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
+
+/*--- log.c -----------------------------------------------------------------*/
 
 LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
 		const char *format, va_list args, void *user_data);

@@ -20,8 +20,10 @@
 #ifndef LIBSWOCXX_H
 #define LIBSWOCXX_H
 
+#include <stdint.h>
 #include <string>
 #include <stdexcept>
+
 #include <libswo/libswo.h>
 
 namespace libswo
@@ -65,7 +67,8 @@ enum DecoderFlags {
 	DF_EOS = LIBSWO_DF_EOS
 };
 
-class LIBSWO_API Error : public exception {
+class LIBSWO_API Error : public exception
+{
 public:
 	Error(int error_code);
 	~Error(void) throw();
@@ -74,7 +77,8 @@ public:
 	const int code;
 };
 
-class LIBSWO_API Packet {
+class LIBSWO_API Packet
+{
 public:
 	virtual ~Packet(void) = 0;
 
@@ -86,7 +90,8 @@ protected:
 
 typedef int (*Callback)(const Packet *packet, void *user_data);
 
-class LIBSWO_API Synchronization : public Packet {
+class LIBSWO_API Synchronization : public Packet
+{
 public:
 	Synchronization(const struct libswo_packet_sync *packet);
 	Synchronization(const union libswo_packet *packet);
@@ -94,7 +99,8 @@ public:
 	size_t get_size(void) const;
 };
 
-class LIBSWO_API Overflow : public Packet {
+class LIBSWO_API Overflow : public Packet
+{
 public:
 	Overflow(const struct libswo_packet_of *packet);
 	Overflow(const union libswo_packet *packet);
@@ -102,7 +108,8 @@ public:
 	size_t get_size(void) const;
 };
 
-class LIBSWO_API LocalTimestamp : public Packet {
+class LIBSWO_API LocalTimestamp : public Packet
+{
 public:
 	LocalTimestamp(const struct libswo_packet_lts *packet);
 	LocalTimestamp(const union libswo_packet *packet);
@@ -112,7 +119,8 @@ public:
 	uint32_t get_value(void) const;
 };
 
-class LIBSWO_API GlobalTimestamp1 : public Packet {
+class LIBSWO_API GlobalTimestamp1 : public Packet
+{
 public:
 	GlobalTimestamp1(const struct libswo_packet_gts1 *packet);
 	GlobalTimestamp1(const union libswo_packet *packet);
@@ -123,7 +131,8 @@ public:
 	bool get_wrap(void) const;
 };
 
-class LIBSWO_API GlobalTimestamp2 : public Packet {
+class LIBSWO_API GlobalTimestamp2 : public Packet
+{
 public:
 	GlobalTimestamp2(const struct libswo_packet_gts2 *packet);
 	GlobalTimestamp2(const union libswo_packet *packet);
@@ -132,7 +141,8 @@ public:
 	uint32_t get_value(void) const;
 };
 
-class LIBSWO_API Extension : public Packet {
+class LIBSWO_API Extension : public Packet
+{
 public:
 	Extension(const struct libswo_packet_ext *packet);
 	Extension(const union libswo_packet *packet);
@@ -142,7 +152,8 @@ public:
 	uint32_t get_value(void) const;
 };
 
-class LIBSWO_API Instrumentation : public Packet {
+class LIBSWO_API Instrumentation : public Packet
+{
 public:
 	Instrumentation(const struct libswo_packet_inst *packet);
 	Instrumentation(const union libswo_packet *packet);
@@ -153,7 +164,8 @@ public:
 	uint32_t get_value(void) const;
 };
 
-class LIBSWO_API Hardware : public Packet {
+class LIBSWO_API Hardware : public Packet
+{
 public:
 	Hardware(const struct libswo_packet_hw *packet);
 	Hardware(const union libswo_packet *packet);
@@ -164,7 +176,8 @@ public:
 	uint32_t get_value(void) const;
 };
 
-class LIBSWO_API Unknown : public Packet {
+class LIBSWO_API Unknown : public Packet
+{
 public:
 	Unknown(const struct libswo_packet_unknown *packet);
 	Unknown(const union libswo_packet *packet);
@@ -172,13 +185,15 @@ public:
 	size_t get_size(void) const;
 };
 
-class LIBSWO_PRIV DecoderCallbackHelper {
+class LIBSWO_PRIV DecoderCallbackHelper
+{
 public:
 	Callback callback;
 	void *user_data;
 };
 
-class LIBSWO_API Context {
+class LIBSWO_API Context
+{
 public:
 	Context(size_t buffer_size);
 	Context(uint8_t *buffer, size_t buffer_size);

@@ -90,7 +90,7 @@ enum libswo_packet_type {
 	LIBSWO_PACKET_TYPE_UNKNOWN = 8
 };
 
-/** Local timestamp packet relation information. */
+/** Local timestamp relation information. */
 enum libswo_lts_relation {
 	/** Source and timestamp packet are synchronous. */
 	LIBSWO_LTS_REL_SYNC = 0,
@@ -102,7 +102,7 @@ enum libswo_lts_relation {
 	LIBSWO_LTS_REL_BOTH = 3
 };
 
-/** Extension packet sources. */
+/** Extension sources. */
 enum libswo_ext_source {
 	/** Instrumentation Trace Macrocell (ITM) extension packet. */
 	LIBSWO_EXT_SRC_ITM = 0,
@@ -308,10 +308,27 @@ typedef int (*libswo_log_callback)(struct libswo_context *ctx, int level,
 #define LIBSWO_API
 #endif
 
+/*--- core.c ----------------------------------------------------------------*/
+
 LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size);
 LIBSWO_API void libswo_exit(struct libswo_context *ctx);
 
+/*--- decoder.c -------------------------------------------------------------*/
+
+LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
+		size_t length);
+LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
+		uint32_t flags);
+LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
+		libswo_decoder_callback callback, void *user_data);
+
+/*--- error.c ---------------------------------------------------------------*/
+
+LIBSWO_API const char *libswo_strerror(int error_code);
+LIBSWO_API const char *libswo_strerror_name(int error_code);
+
+/*--- log.c -----------------------------------------------------------------*/
 
 LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx);
@@ -320,16 +337,6 @@ LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
 LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
 		const char *domain);
 LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx);
-
-LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
-		libswo_decoder_callback callback, void *user_data);
-LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
-		size_t length);
-LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
-		uint32_t flags);
-
-LIBSWO_API const char *libswo_strerror(int error_code);
-LIBSWO_API const char *libswo_strerror_name(int error_code);
 
 #ifdef __cplusplus
 }
