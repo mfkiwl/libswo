@@ -27,6 +27,7 @@
 %include "std_string.i"
 %include "exception.i"
 %include "typemaps.i"
+%include "pybuffer.i"
 
 %exception
 {
@@ -52,6 +53,9 @@ static int swig_exception_code(int code)
 	return SWIG_RuntimeError;
 }
 %}
+
+%pybuffer_binary(const uint8_t *data, size_t length)
+void libswo::Context::feed(const uint8_t *data, size_t length);
 
 /*
  * Rename the Context class from the C++ bindings to a name with leading
@@ -193,11 +197,6 @@ void Context::set_callback(PyObject *callback, PyObject *user_data)
 
 	_py_args = Py_BuildValue("(OO)", _py_callback, _py_user_data);
 	libswo::Context::set_callback(&packet_callback, (void *)_py_args);
-}
-
-void Context::feed(std::string data)
-{
-	libswo::Context::feed((const uint8_t *)data.c_str(), data.length());
 }
 %}
 

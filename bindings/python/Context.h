@@ -31,8 +31,6 @@ public:
 	~Context(void);
 
 	void set_callback(PyObject *pyfunc, PyObject *user_data = NULL);
-
-	void feed(std::string data);
 private:
 	PyObject *_py_args;
 	PyObject *_py_callback;
