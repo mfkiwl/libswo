@@ -56,6 +56,9 @@ m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 # Initialize libtool.
 LT_INIT
 
+# Initialize pkg-config.
+PKG_PROG_PKG_CONFIG
+
 # Checks for libraries.
 
 # Checks for header files.
