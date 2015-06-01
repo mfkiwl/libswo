@@ -36,9 +36,10 @@ size_t Hardware::get_size(void) const
 	return _packet.hw.size;
 }
 
-const uint8_t *Hardware::get_payload(void) const
+const vector<uint8_t> Hardware::get_payload(void) const
 {
-	return _packet.hw.payload;
+	return vector<uint8_t>(_packet.hw.payload,
+		_packet.hw.payload + _packet.hw.size - 1);
 }
 
 uint8_t Hardware::get_address(void) const

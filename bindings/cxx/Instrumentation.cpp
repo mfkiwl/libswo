@@ -42,9 +42,10 @@ uint8_t Instrumentation::get_address(void) const
 	return _packet.inst.address;
 }
 
-const uint8_t *Instrumentation::get_payload(void) const
+const vector<uint8_t> Instrumentation::get_payload(void) const
 {
-	return _packet.inst.payload;
+	return vector<uint8_t>(_packet.inst.payload,
+		_packet.inst.payload + _packet.inst.size - 1);
 }
 
 uint32_t Instrumentation::get_value(void) const

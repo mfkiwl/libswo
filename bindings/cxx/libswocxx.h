@@ -22,6 +22,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <vector>
 #include <stdexcept>
 
 #include <libswo/libswo.h>
@@ -160,7 +161,7 @@ public:
 
 	size_t get_size(void) const;
 	uint8_t get_address(void) const;
-	const uint8_t *get_payload(void) const;
+	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
 };
 
@@ -172,7 +173,7 @@ public:
 
 	size_t get_size(void) const;
 	uint8_t get_address(void) const;
-	const uint8_t *get_payload(void) const;
+	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
 };
 

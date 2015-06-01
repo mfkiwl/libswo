@@ -25,6 +25,7 @@
 
 %include "stdint.i"
 %include "std_string.i"
+%include "std_vector.i"
 %include "exception.i"
 %include "typemaps.i"
 %include "pybuffer.i"
@@ -56,6 +57,18 @@ static int swig_exception_code(int code)
 
 %pybuffer_binary(const uint8_t *data, size_t length)
 void libswo::Context::feed(const uint8_t *data, size_t length);
+
+/*
+ * Map from std::vector<uint8_t> to Python bytes object for Python version 3
+ * and to Python string object for Python version >= 2.6.
+ */
+%typemap(out) std::vector<uint8_t> {
+	const char *dummy;
+	const std::vector<uint8_t> &tmp = $1;
+
+	dummy = reinterpret_cast<const char *>(&tmp[0]);
+	$result = PyBytes_FromStringAndSize(dummy, tmp.size());
+}
 
 /*
  * Rename the Context class from the C++ bindings to a name with leading
