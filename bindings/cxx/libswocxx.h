@@ -204,7 +204,7 @@ public:
 	void set_log_level(enum LogLevel level);
 
 	string get_log_domain(void) const;
-	void set_log_domain(string domain);
+	void set_log_domain(const string &domain);
 
 	void set_callback(DecoderCallback callback, void *user_data = NULL);
 

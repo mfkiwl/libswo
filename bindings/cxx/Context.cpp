@@ -83,7 +83,7 @@ string Context::get_log_domain(void) const
 	return tmp;
 }
 
-void Context::set_log_domain(string domain)
+void Context::set_log_domain(const string &domain)
 {
 	int ret;
 
