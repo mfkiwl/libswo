@@ -89,7 +89,7 @@ protected:
 	union libswo_packet _packet;
 };
 
-typedef int (*Callback)(const Packet *packet, void *user_data);
+typedef int (*DecoderCallback)(const Packet *packet, void *user_data);
 
 class LIBSWO_API Synchronization : public Packet
 {
@@ -189,7 +189,7 @@ public:
 class LIBSWO_PRIV DecoderCallbackHelper
 {
 public:
-	Callback callback;
+	DecoderCallback callback;
 	void *user_data;
 };
 
@@ -206,7 +206,7 @@ public:
 	string get_log_domain(void) const;
 	void set_log_domain(string domain);
 
-	void set_callback(Callback callback, void *user_data = NULL);
+	void set_callback(DecoderCallback callback, void *user_data = NULL);
 
 	void feed(const uint8_t *data, size_t length);
 	size_t decode(size_t limit, uint32_t flags);

@@ -162,7 +162,7 @@ size_t Context::decode(size_t limit, uint32_t flags)
 	return ret;
 }
 
-void Context::set_callback(Callback callback, void *user_data)
+void Context::set_callback(DecoderCallback callback, void *user_data)
 {
 	int ret;
 
