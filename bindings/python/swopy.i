@@ -154,7 +154,7 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 
 	if (!ret) {
 		PyErr_Print();
-		return 0;
+		return LIBSWO_ERR;
 	}
 
 	obj = packet_object(packet);
@@ -163,7 +163,7 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 		PyErr_Format(PyExc_ValueError, "decoder callback invoked with "
 			"invalid packet type: %i", packet.get_type());
 		PyErr_Print();
-		return 0;
+		return LIBSWO_ERR;
 	}
 
 	res = PyObject_CallFunctionObjArgs(func, obj, tmp, NULL);
@@ -171,18 +171,18 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 
 	if (!res) {
 		PyErr_Print();
-		return 0;
+		return LIBSWO_ERR;
 	}
 
-	if (PyInt_Check(res)) {
-		ret = PyLong_AsLong(res);
-	} else if (res != Py_None) {
-		PyErr_SetString(PyExc_TypeError, "decoder callback neither "
-			"returned an integer nor None");
-		PyErr_Print();
+	if (res == Py_None || res == Py_True) {
+		ret = 1;
+	} else if (res == Py_False) {
 		ret = 0;
 	} else {
-		ret = 0;
+		PyErr_SetString(PyExc_TypeError, "decoder callback function "
+			"neither returned a boolean value nor None");
+		PyErr_Print();
+		ret = LIBSWO_ERR;
 	}
 
 	Py_DECREF(res);

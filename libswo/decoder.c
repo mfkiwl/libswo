@@ -443,8 +443,10 @@ static int handle_unknown_header(struct libswo_context *ctx, uint8_t header)
 	return 1;
 }
 
-static void handle_eos(struct libswo_context *ctx)
+static int handle_eos(struct libswo_context *ctx)
 {
+	int ret;
+
 	log_dbg(ctx, "Treating %u remaining bytes as unknown data.",
 		ctx->bytes_available);
 
@@ -452,18 +454,25 @@ static void handle_eos(struct libswo_context *ctx)
 	ctx->packet.unknown.size = ctx->bytes_available;
 
 	if (ctx->callback)
-		ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
+		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
+	else
+		ret = 1;
 
 	buffer_flush(ctx);
 	ctx->packet.any.size = 0;
+
+	return ret;
 }
 
-static void handle_packet(struct libswo_context *ctx)
+static int handle_packet(struct libswo_context *ctx)
 {
+	int ret;
 	size_t tmp;
 
 	if (ctx->callback)
-		ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
+		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
+	else
+		ret = 1;
 
 	if (ctx->packet.type == LIBSWO_PACKET_TYPE_SYNC)
 		tmp = (ctx->packet.sync.size + 7) / 8;
@@ -472,6 +481,8 @@ static void handle_packet(struct libswo_context *ctx)
 
 	buffer_remove(ctx, tmp);
 	ctx->packet.any.size = 0;
+
+	return ret;
 }
 
 /**
@@ -523,8 +534,17 @@ LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
 
 	while (!limit || num_packets < limit) {
 		if (ctx->packet.any.size) {
-			handle_packet(ctx);
+			ret = handle_packet(ctx);
 			num_packets++;
+
+			if (ret < 0) {
+				return LIBSWO_ERR;
+			} else if (!ret) {
+				log_dbg(ctx, "Decoding stopped by callback "
+					"function.");
+				return num_packets;
+			}
+
 			continue;
 		}
 
@@ -574,7 +594,9 @@ LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
 			return num_packets;
 
 		if (!limit || num_packets < limit) {
-			handle_eos(ctx);
+			if (handle_eos(ctx) < 0)
+				return LIBSWO_ERR;
+
 			num_packets++;
 		}
 	}

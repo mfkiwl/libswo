@@ -286,7 +286,15 @@ union libswo_packet {
  */
 struct libswo_context;
 
-/** Decoder callback function type. */
+/**
+ * Decoder callback function type.
+ *
+ * @param[in,out] ctx libswo context.
+ * @param[out] packet Decoded packet.
+ * @param[in,out] user_data User data passed to the callback function.
+ *
+ * @return 0 to stop decoding, or any non-negative value to continue decoding.
+ */
 typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);
 
