@@ -144,7 +144,7 @@ static int packet_callback(struct libswo_context *ctx,
 		break;
 	}
 
-	ret = helper->callback(tmp, helper->user_data);
+	ret = helper->callback(*tmp, helper->user_data);
 	delete tmp;
 
 	return ret;

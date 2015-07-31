@@ -95,14 +95,14 @@ Context::~Context(void)
 	Py_XDECREF(_py_user_data);
 }
 
-static PyObject *packet_object(const libswo::Packet *packet)
+static PyObject *packet_object(const libswo::Packet &packet)
 {
 	PyObject *ret;
 	void *tmp;
 
-	tmp = (void *)packet;
+	tmp = (void *)&packet;
 
-	switch (packet->get_type()) {
+	switch (packet.get_type()) {
 	case libswo::PACKET_TYPE_SYNC:
 		ret = SWIG_NewPointerObj(tmp,
 			SWIGTYPE_p_libswo__Synchronization, 0);
@@ -142,7 +142,7 @@ static PyObject *packet_object(const libswo::Packet *packet)
 	return ret;
 }
 
-static int packet_callback(const libswo::Packet *packet, void *user_data)
+static int packet_callback(const libswo::Packet &packet, void *user_data)
 {
 	int ret;
 	PyObject *func;
@@ -161,7 +161,7 @@ static int packet_callback(const libswo::Packet *packet, void *user_data)
 
 	if (!obj) {
 		PyErr_Format(PyExc_ValueError, "decoder callback invoked with "
-			"invalid packet type: %i", packet->get_type());
+			"invalid packet type: %i", packet.get_type());
 		PyErr_Print();
 		return 0;
 	}

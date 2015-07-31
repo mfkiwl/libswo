@@ -89,7 +89,7 @@ protected:
 	union libswo_packet _packet;
 };
 
-typedef int (*DecoderCallback)(const Packet *packet, void *user_data);
+typedef int (*DecoderCallback)(const Packet &packet, void *user_data);
 
 class LIBSWO_API Synchronization : public Packet
 {
