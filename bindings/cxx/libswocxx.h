@@ -197,7 +197,7 @@ public:
 	void set_callback(DecoderCallback callback, void *user_data = NULL);
 
 	void feed(const uint8_t *data, size_t length);
-	size_t decode(size_t limit, uint32_t flags);
+	void decode(uint32_t flags);
 private:
 	struct libswo_context *_context;
 	DecoderCallbackHelper _decoder_callback;

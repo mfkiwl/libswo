@@ -512,42 +512,22 @@ LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
  * Decode the trace data.
  *
  * @param[in,out] ctx libswo context.
- * @param[in] limit Maximum number of packets to be decoded, or 0 for no
- * 		    limitation.
  * @param[in] flags Decoder flags, see #libswo_decoder_flags for a description.
  *
- * @return The number of decoded packets on success, or a negative error code
- * 	   on failure.
+ * @retval LIBSWO_OK Success.
+ * @retval LIBSWO_ERR Other error conditions.
+ * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
-		uint32_t flags)
+LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
 {
 	int ret;
 	uint8_t header;
 	int packet_type;
-	size_t num_packets;
 
 	if (!ctx)
 		return LIBSWO_ERR_ARG;
 
-	num_packets = 0;
-
-	while (!limit || num_packets < limit) {
-		if (ctx->packet.any.size) {
-			ret = handle_packet(ctx);
-			num_packets++;
-
-			if (ret < 0) {
-				return LIBSWO_ERR;
-			} else if (!ret) {
-				log_dbg(ctx, "Decoding stopped by callback "
-					"function.");
-				return num_packets;
-			}
-
-			continue;
-		}
-
+	while (1) {
 		if (!buffer_peek(ctx, &header, 1, 0))
 			break;
 
@@ -585,23 +565,27 @@ LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
 
 		if (!ret)
 			break;
+
+		ret = handle_packet(ctx);
+
+		if (ret < 0) {
+			return LIBSWO_ERR;
+		} else if (!ret) {
+			log_dbg(ctx, "Decoding stopped by callback function.");
+			return LIBSWO_OK;
+		}
 	}
 
 	if (flags & LIBSWO_DF_EOS) {
 		log_dbg(ctx, "End of stream reached.");
 
-		if (!ctx->bytes_available)
-			return num_packets;
-
-		if (!limit || num_packets < limit) {
+		if (ctx->bytes_available > 0) {
 			if (handle_eos(ctx) < 0)
 				return LIBSWO_ERR;
-
-			num_packets++;
 		}
 	}
 
-	return num_packets;
+	return LIBSWO_OK;
 }
 
 /**

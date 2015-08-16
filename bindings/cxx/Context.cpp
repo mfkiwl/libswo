@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sys/types.h>
-
 #include "libswocxx.h"
 
 namespace libswo
@@ -150,16 +148,14 @@ static int packet_callback(struct libswo_context *ctx,
 	return ret;
 }
 
-size_t Context::decode(size_t limit, uint32_t flags)
+void Context::decode(uint32_t flags)
 {
-	ssize_t ret;
+	int ret;
 
-	ret = libswo_decode(_context, limit, flags);
+	ret = libswo_decode(_context, flags);
 
-	if (ret < 0)
+	if (ret != LIBSWO_OK)
 		throw Error(ret);
-
-	return ret;
 }
 
 void Context::set_callback(DecoderCallback callback, void *user_data)

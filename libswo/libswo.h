@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <sys/types.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -326,8 +325,7 @@ LIBSWO_API void libswo_exit(struct libswo_context *ctx);
 
 LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length);
-LIBSWO_API ssize_t libswo_decode(struct libswo_context *ctx, size_t limit,
-		uint32_t flags);
+LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags);
 LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data);
 
