@@ -31,11 +31,6 @@ Hardware::Hardware(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t Hardware::get_size(void) const
-{
-	return _packet.hw.size;
-}
-
 const vector<uint8_t> Hardware::get_payload(void) const
 {
 	return vector<uint8_t>(_packet.hw.payload,

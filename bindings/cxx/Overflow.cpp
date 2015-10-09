@@ -32,9 +32,4 @@ Overflow::Overflow(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t Overflow::get_size(void) const
-{
-	return _packet.of.size;
-}
-
 }

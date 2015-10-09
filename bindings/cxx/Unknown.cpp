@@ -32,9 +32,4 @@ Unknown::Unknown(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t Unknown::get_size(void) const
-{
-	return _packet.unknown.size;
-}
-
 }

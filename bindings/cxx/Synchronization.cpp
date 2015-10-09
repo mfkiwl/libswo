@@ -32,9 +32,4 @@ Synchronization::Synchronization(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t Synchronization::get_size(void) const
-{
-	return _packet.sync.size;
-}
-
 }

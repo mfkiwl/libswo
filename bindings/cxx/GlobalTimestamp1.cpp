@@ -32,11 +32,6 @@ GlobalTimestamp1::GlobalTimestamp1(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t GlobalTimestamp1::get_size(void) const
-{
-	return _packet.gts1.size;
-}
-
 uint32_t GlobalTimestamp1::get_value(void) const
 {
 	return _packet.gts1.value;

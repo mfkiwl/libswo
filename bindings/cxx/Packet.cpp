@@ -31,4 +31,9 @@ enum PacketType Packet::get_type(void) const
 	return static_cast<enum PacketType>(_packet.type);
 }
 
+size_t Packet::get_size(void) const
+{
+	return _packet.any.size;
+}
+
 }

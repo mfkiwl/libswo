@@ -32,11 +32,6 @@ LocalTimestamp::LocalTimestamp(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t LocalTimestamp::get_size(void) const
-{
-	return _packet.lts.size;
-}
-
 uint32_t LocalTimestamp::get_value(void) const
 {
 	return _packet.lts.value;

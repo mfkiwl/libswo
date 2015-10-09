@@ -84,7 +84,7 @@ public:
 	virtual ~Packet(void) = 0;
 
 	enum PacketType get_type(void) const;
-	virtual size_t get_size(void) const = 0;
+	size_t get_size(void) const;
 protected:
 	union libswo_packet _packet;
 };
@@ -96,8 +96,6 @@ class LIBSWO_API Synchronization : public Packet
 public:
 	Synchronization(const struct libswo_packet_sync *packet);
 	Synchronization(const union libswo_packet *packet);
-
-	size_t get_size(void) const;
 };
 
 class LIBSWO_API Overflow : public Packet
@@ -105,8 +103,6 @@ class LIBSWO_API Overflow : public Packet
 public:
 	Overflow(const struct libswo_packet_of *packet);
 	Overflow(const union libswo_packet *packet);
-
-	size_t get_size(void) const;
 };
 
 class LIBSWO_API LocalTimestamp : public Packet
@@ -115,7 +111,6 @@ public:
 	LocalTimestamp(const struct libswo_packet_lts *packet);
 	LocalTimestamp(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	enum LocalTimestampRelation get_relation() const;
 	uint32_t get_value(void) const;
 };
@@ -126,7 +121,6 @@ public:
 	GlobalTimestamp1(const struct libswo_packet_gts1 *packet);
 	GlobalTimestamp1(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	uint32_t get_value(void) const;
 	bool get_clkch(void) const;
 	bool get_wrap(void) const;
@@ -138,7 +132,6 @@ public:
 	GlobalTimestamp2(const struct libswo_packet_gts2 *packet);
 	GlobalTimestamp2(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	uint32_t get_value(void) const;
 };
 
@@ -148,7 +141,6 @@ public:
 	Extension(const struct libswo_packet_ext *packet);
 	Extension(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	enum ExtensionSource get_source(void) const;
 	uint32_t get_value(void) const;
 };
@@ -159,7 +151,6 @@ public:
 	Instrumentation(const struct libswo_packet_inst *packet);
 	Instrumentation(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
@@ -171,7 +162,6 @@ public:
 	Hardware(const struct libswo_packet_hw *packet);
 	Hardware(const union libswo_packet *packet);
 
-	size_t get_size(void) const;
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
@@ -182,8 +172,6 @@ class LIBSWO_API Unknown : public Packet
 public:
 	Unknown(const struct libswo_packet_unknown *packet);
 	Unknown(const union libswo_packet *packet);
-
-	size_t get_size(void) const;
 };
 
 class LIBSWO_PRIV DecoderCallbackHelper

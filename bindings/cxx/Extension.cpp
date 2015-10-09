@@ -37,11 +37,6 @@ enum ExtensionSource Extension::get_source(void) const
 	return static_cast<enum ExtensionSource>(_packet.ext.source);
 }
 
-size_t Extension::get_size(void) const
-{
-	return _packet.ext.size;
-}
-
 uint32_t Extension::get_value(void) const
 {
 	return _packet.ext.value;

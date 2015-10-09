@@ -32,11 +32,6 @@ Instrumentation::Instrumentation(const union libswo_packet *packet)
 	_packet = *packet;
 }
 
-size_t Instrumentation::get_size(void) const
-{
-	return _packet.inst.size;
-}
-
 uint8_t Instrumentation::get_address(void) const
 {
 	return _packet.inst.address;
