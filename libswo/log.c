@@ -57,8 +57,8 @@ LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level)
  * @param[in,out] ctx libswo context.
  *
  * @return The current log level on success, or a negative error code
- * 	   on failure. See #libswo_log_level for a description of each
- * 	   individual log level.
+ *         on failure. See #libswo_log_level for a description of each
+ *         individual log level.
  */
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx)
 {
@@ -73,7 +73,7 @@ LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx)
  *
  * @param[in,out] ctx libswo context.
  * @param[in] callback Callback function to use, or NULL to use the default log
- * 		       function.
+ *                     function.
  * @param[in] user_data User data to be passed to the callback function.
  *
  * @retval LIBSWO_OK Success.
@@ -108,7 +108,7 @@ LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
  *
  * @param[in,out] ctx libswo context.
  * @param[in] domain Log domain to use. To set the default log domain, use
- * 		     #LIBSWO_LOG_DOMAIN_DEFAULT.
+ *                   #LIBSWO_LOG_DOMAIN_DEFAULT.
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR Other error conditions.
@@ -137,8 +137,8 @@ LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
  * @param[in] ctx libswo context.
  *
  * @return A string which contains the current log domain on success, or NULL
- * 	   on failure. The string is null-terminated and must not be free'd by
- * 	   the caller.
+ *         on failure. The string is null-terminated and must not be free'd by
+ *         the caller.
  */
 LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx)
 {

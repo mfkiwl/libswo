@@ -31,8 +31,8 @@
  * @param error_code A libswo error code. See #libswo_error for valid values.
  *
  * @return A string which contains a description of the given error code, or
- * 	   the string <i>unknown error</i> if the error code is not known. The
- * 	   string is null-terminated and must not be free'd by the caller.
+ *         the string <i>unknown error</i> if the error code is not known. The
+ *         string is null-terminated and must not be free'd by the caller.
  */
 LIBSWO_API const char *libswo_strerror(int error_code)
 {

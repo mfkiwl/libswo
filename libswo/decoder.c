@@ -593,7 +593,7 @@ LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
  *
  * @param[in,out] ctx libswo context.
  * @param[in] callback Callback function to be used, or NULL to disable
- * 		       callback invocation.
+ *                     callback invocation.
  * @param[in] user_data User data to be passed to the callback function.
  *
  * @retval LIBSWO_OK Success.

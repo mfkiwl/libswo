@@ -35,7 +35,7 @@
  * @param[in] length Number of bytes to write.
  *
  * @return 1 on success, or 0 if there is not enough space left to write the
- * 	   requested number of bytes.
+ *         requested number of bytes.
  */
 LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length)
@@ -65,12 +65,12 @@ LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
  *
  * @param[in] ctx libswo context.
  * @param[out] buffer Buffer to store peeked data into. Its content is
- * 		      undefined on failure.
+ *                    undefined on failure.
  * @param[in] length Number of bytes to peek.
  * @param[in] offset Offset in bytes to start peeking at.
  *
  * @return 1 on success, or 0 if there are not enough data to peek the
- * 	   requested number of bytes.
+ *         requested number of bytes.
  */
 LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset)
@@ -101,7 +101,7 @@ LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
  * @param[in] length Number of bytes to remove.
  *
  * @return 1 on success, or 0 if there are not enough bytes in the buffer to be
- * 	   removed.
+ *         removed.
  */
 LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length)
 {

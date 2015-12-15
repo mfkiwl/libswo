@@ -33,9 +33,9 @@
  * Initialize libswo.
  *
  * @param[out] ctx Newly allocated libswo context on success, and undefined on
- * 		   failure.
+ *                 failure.
  * @param[in] buffer Buffer to be used for buffering trace data, or NULL to
- * 		     allocate a new buffer with the given size.
+ *                   allocate a new buffer with the given size.
  * @param[in] buffer_size Size of the buffer in bytes.
  *
  * @retval LIBSWO_OK Success.

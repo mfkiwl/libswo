@@ -60,7 +60,7 @@ LIBSWO_API int libswo_version_package_get_micro(void)
  * Get the version number string of the libswo package.
  *
  * @return A string which contains the version number of the libswo package.
- * 	   The string is null-terminated and must not be free'd by the caller.
+ *         The string is null-terminated and must not be free'd by the caller.
  */
 LIBSWO_API const char *libswo_version_package_get_string(void)
 {
@@ -101,8 +101,8 @@ LIBSWO_API int libswo_version_lib_get_age(void)
  * Get the version number string of the libswo libtool interface.
  *
  * @return A string which contains the version number of the libswo libtool
- * 	   interface. The string is null-terminated and must not be free'd by
- * 	   the caller.
+ *         interface. The string is null-terminated and must not be free'd by
+ *         the caller.
  */
 LIBSWO_API const char *libswo_version_lib_get_string(void)
 {
