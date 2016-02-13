@@ -31,8 +31,6 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 
-AC_CANONICAL_HOST
-
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 
 # Enable additional compiler warnings via -Wall and -Wextra. Use hidden
@@ -97,11 +95,6 @@ AC_SUBST(LIBSWO_VERSION_LIB_AGE)
 AC_SUBST(LIBSWO_VERSION_LIB)
 
 LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIB"
-
-case $host_os in
-mingw*)
-	LIBSWO_LIB_LDFLAGS="$LIBSWO_LIB_LDFLAGS -no-undefined"
-esac
 
 AC_SUBST([LIBSWO_LIB_LDFLAGS])
 
