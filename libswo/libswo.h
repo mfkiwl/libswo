@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -182,12 +183,12 @@ struct libswo_packet_gts1 {
 	 * Indicates if the system has asserted the clock change input to the
 	 * processor since the last emitted global timestamp packet.
 	 */
-	int clkch;
+	bool clkch;
 	/**
 	 * Indicates if the high-order global timestamp bits [47:26] changed
 	 * since the last emitted global timestamp (GTS2) packet.
 	 */
-	int wrap;
+	bool wrap;
 };
 
 /** Global timestamp (GTS2) packet. */
@@ -292,7 +293,8 @@ struct libswo_context;
  * @param[out] packet Decoded packet.
  * @param[in,out] user_data User data passed to the callback function.
  *
- * @return 0 to stop decoding, or any non-negative value to continue decoding.
+ * @retval true Continue decoding.
+ * @retval false Stop decoding.
  */
 typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);

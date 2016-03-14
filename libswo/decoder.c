@@ -18,6 +18,7 @@
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "libswo.h"
 #include "libswo-internal.h"
@@ -192,7 +193,7 @@ static uint32_t decode_payload(const uint8_t *buffer, uint8_t size)
 	return tmp;
 }
 
-static int decode_sync_packet(struct libswo_context *ctx)
+static bool decode_sync_packet(struct libswo_context *ctx)
 {
 	size_t i;
 	size_t j;
@@ -205,7 +206,7 @@ static int decode_sync_packet(struct libswo_context *ctx)
 		if (!buffer_peek(ctx, &tmp, 1, 1 + i)) {
 			log_dbg(ctx, "Not enough bytes available to decode "
 				"synchronization packet.");
-			return 0;
+			return false;
 		}
 
 		if (tmp)
@@ -224,7 +225,7 @@ static int decode_sync_packet(struct libswo_context *ctx)
 
 		ctx->packet.type = LIBSWO_PACKET_TYPE_UNKNOWN;
 		ctx->packet.unknown.size = i + 1;
-		return 1;
+		return true;
 	}
 
 	ctx->packet.type = LIBSWO_PACKET_TYPE_SYNC;
@@ -232,20 +233,20 @@ static int decode_sync_packet(struct libswo_context *ctx)
 
 	log_dbg(ctx, "Synchronization packet decoded.");
 
-	return 1;
+	return true;
 }
 
-static int decode_overflow_packet(struct libswo_context *ctx)
+static bool decode_overflow_packet(struct libswo_context *ctx)
 {
 	ctx->packet.type = LIBSWO_PACKET_TYPE_OVERFLOW;
 	ctx->packet.of.size = 1;
 
 	log_dbg(ctx, "Overflow packet decoded.");
 
-	return 1;
+	return true;
 }
 
-static int decode_lts_packet(struct libswo_context *ctx, uint8_t header)
+static bool decode_lts_packet(struct libswo_context *ctx, uint8_t header)
 {
 	int ret;
 	uint32_t value;
@@ -259,7 +260,7 @@ static int decode_lts_packet(struct libswo_context *ctx, uint8_t header)
 		ctx->packet.lts.relation = LIBSWO_LTS_REL_SYNC;
 
 		log_dbg(ctx, "Local timestamp (LTS2) packet decoded.");
-		return 1;
+		return true;
 	}
 
 	ret = decode_cond_payload(ctx, &value);
@@ -275,16 +276,16 @@ static int decode_lts_packet(struct libswo_context *ctx, uint8_t header)
 				"invalid trailing bit.");
 
 		log_dbg(ctx, "Local timestamp (LTS1) packet decoded.");
-		return 1;
+		return true;
 	}
 
 	log_dbg(ctx, "Not enough bytes available to decode local timestamp "
 		"packet.");
 
-	return 0;
+	return false;
 }
 
-static int decode_gts1_packet(struct libswo_context *ctx)
+static bool decode_gts1_packet(struct libswo_context *ctx)
 {
 	int ret;
 	uint32_t value;
@@ -297,26 +298,26 @@ static int decode_gts1_packet(struct libswo_context *ctx)
 		ctx->packet.gts1.value = value & GTS1_TS_MASK;
 
 		if (value & GTS1_CLKCH_MASK)
-			ctx->packet.gts1.clkch = 1;
+			ctx->packet.gts1.clkch = true;
 		else
-			ctx->packet.gts1.clkch = 0;
+			ctx->packet.gts1.clkch = false;
 
 		if (value & GTS1_WRAP_MASK)
-			ctx->packet.gts1.wrap = 1;
+			ctx->packet.gts1.wrap = true;
 		else
-			ctx->packet.gts1.wrap = 0;
+			ctx->packet.gts1.wrap = false;
 
 		log_dbg(ctx, "Global timestamp (GTS1) packet decoded.");
-		return 1;
+		return true;
 	}
 
 	log_dbg(ctx, "Not enough bytes available to decode global timestamp "
 		"(GTS1) packet.");
 
-	return 0;
+	return false;
 }
 
-static int decode_gts2_packet(struct libswo_context *ctx)
+static bool decode_gts2_packet(struct libswo_context *ctx)
 {
 	int ret;
 	uint32_t value;
@@ -330,7 +331,7 @@ static int decode_gts2_packet(struct libswo_context *ctx)
 
 			ctx->packet.type = LIBSWO_PACKET_TYPE_UNKNOWN;
 			ctx->packet.unknown.size = 1;
-			return 1;
+			return true;
 		}
 
 		ctx->packet.type = LIBSWO_PACKET_TYPE_GTS2;
@@ -342,16 +343,16 @@ static int decode_gts2_packet(struct libswo_context *ctx)
 				"contains invalid trailing bits.");
 
 		log_dbg(ctx, "Global timestamp (GTS2) packet decoded.");
-		return 1;
+		return true;
 	}
 
 	log_dbg(ctx, "Not enough bytes available to decode global timestamp "
 		"(GTS2) packet.");
 
-	return 0;
+	return false;
 }
 
-static int decode_ext_packet(struct libswo_context *ctx, uint8_t header)
+static bool decode_ext_packet(struct libswo_context *ctx, uint8_t header)
 {
 	int ret;
 	size_t size;
@@ -370,7 +371,7 @@ static int decode_ext_packet(struct libswo_context *ctx, uint8_t header)
 		} else {
 			log_dbg(ctx, "Not enough bytes available to decode "
 				"extension packet.");
-			return 0;
+			return false;
 		}
 	}
 
@@ -385,10 +386,10 @@ static int decode_ext_packet(struct libswo_context *ctx, uint8_t header)
 
 	log_dbg(ctx, "Extension packet decoded.");
 
-	return 1;
+	return true;
 }
 
-static int decode_inst_packet(struct libswo_context *ctx, uint8_t header)
+static bool decode_inst_packet(struct libswo_context *ctx, uint8_t header)
 {
 	uint8_t payload_size;
 
@@ -397,7 +398,7 @@ static int decode_inst_packet(struct libswo_context *ctx, uint8_t header)
 	if (!buffer_peek(ctx, ctx->packet.inst.payload, payload_size, 1)) {
 		log_dbg(ctx, "Not enough bytes available to decode "
 			"instrumentation packet.");
-		return 0;
+		return false;
 	}
 
 	ctx->packet.type = LIBSWO_PACKET_TYPE_INST;
@@ -408,10 +409,10 @@ static int decode_inst_packet(struct libswo_context *ctx, uint8_t header)
 
 	log_dbg(ctx, "Instrumentation packet decoded.");
 
-	return 1;
+	return true;
 }
 
-static int decode_hw_packet(struct libswo_context *ctx, uint8_t header)
+static bool decode_hw_packet(struct libswo_context *ctx, uint8_t header)
 {
 	uint8_t payload_size;
 
@@ -420,7 +421,7 @@ static int decode_hw_packet(struct libswo_context *ctx, uint8_t header)
 	if (!buffer_peek(ctx, ctx->packet.hw.payload, payload_size, 1)) {
 		log_dbg(ctx, "Not enough bytes available to decode hardware "
 			"source packet.");
-		return 0;
+		return false;
 	}
 
 	ctx->packet.type = LIBSWO_PACKET_TYPE_HW;
@@ -431,16 +432,16 @@ static int decode_hw_packet(struct libswo_context *ctx, uint8_t header)
 
 	log_dbg(ctx, "Hardware source packet decoded.");
 
-	return 1;
+	return true;
 }
 
-static int handle_unknown_header(struct libswo_context *ctx, uint8_t header)
+static bool handle_unknown_header(struct libswo_context *ctx, uint8_t header)
 {
 	log_dbg(ctx, "Unknown header: %02x.", header);
 	ctx->packet.type = LIBSWO_PACKET_TYPE_UNKNOWN;
 	ctx->packet.unknown.size = 1;
 
-	return 1;
+	return true;
 }
 
 static int handle_eos(struct libswo_context *ctx)
@@ -456,7 +457,7 @@ static int handle_eos(struct libswo_context *ctx)
 	if (ctx->callback)
 		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
 	else
-		ret = 1;
+		ret = true;
 
 	buffer_flush(ctx);
 	ctx->packet.any.size = 0;
@@ -472,7 +473,7 @@ static int handle_packet(struct libswo_context *ctx)
 	if (ctx->callback)
 		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
 	else
-		ret = 1;
+		ret = true;
 
 	if (ctx->packet.type == LIBSWO_PACKET_TYPE_SYNC)
 		tmp = (ctx->packet.sync.size + 7) / 8;
@@ -527,7 +528,7 @@ LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
 	if (!ctx)
 		return LIBSWO_ERR_ARG;
 
-	while (1) {
+	while (true) {
 		if (!buffer_peek(ctx, &header, 1, 0))
 			break;
 

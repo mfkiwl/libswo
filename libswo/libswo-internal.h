@@ -20,6 +20,7 @@
 #ifndef LIBSWO_LIBSWO_INTERNAL_H
 #define LIBSWO_LIBSWO_INTERNAL_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #include "libswo.h"
@@ -56,7 +57,7 @@ struct libswo_context {
 	 * Indicates whether the buffer was allocated during initialization and
 	 * must be free'ed on shutdown.
 	 */
-	int free_buffer;
+	bool free_buffer;
 	/** Current read position of the buffer. */
 	size_t read_pos;
 	/** Current write position of the buffer. */
@@ -67,11 +68,11 @@ struct libswo_context {
 
 /*--- buffer.c --------------------------------------------------------------*/
 
-LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
-		size_t length);
-LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
+LIBSWO_PRIV bool buffer_write(struct libswo_context *ctx,
+		const uint8_t *buffer, size_t length);
+LIBSWO_PRIV bool buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset);
-LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length);
+LIBSWO_PRIV bool buffer_remove(struct libswo_context *ctx, size_t length);
 LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
 
 /*--- log.c -----------------------------------------------------------------*/

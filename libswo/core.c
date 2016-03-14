@@ -70,9 +70,9 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 	}
 
 	if (buffer) {
-		context->free_buffer = 0;
+		context->free_buffer = false;
 	} else {
-		context->free_buffer = 1;
+		context->free_buffer = true;
 		buffer = malloc(buffer_size);
 	}
 

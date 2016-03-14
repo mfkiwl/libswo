@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdbool.h>
 #include <string.h>
 
 #include "libswo-internal.h"
@@ -34,16 +35,16 @@
  * @param[in] buffer Buffer to write data from.
  * @param[in] length Number of bytes to write.
  *
- * @return 1 on success, or 0 if there is not enough space left to write the
- *         requested number of bytes.
+ * @retval true Success.
+ * @retval false Not enough space left to write the requested number of bytes.
  */
-LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
-		size_t length)
+LIBSWO_PRIV bool buffer_write(struct libswo_context *ctx,
+		const uint8_t *buffer, size_t length)
 {
 	size_t tmp;
 
 	if (ctx->bytes_available + length > ctx->size)
-		return 0;
+		return false;
 
 	if (ctx->write_pos + length > ctx->size) {
 		tmp = ctx->size - ctx->write_pos;
@@ -57,7 +58,7 @@ LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
 
 	ctx->bytes_available += length;
 
-	return 1;
+	return true;
 }
 
 /**
@@ -69,16 +70,16 @@ LIBSWO_PRIV int buffer_write(struct libswo_context *ctx, const uint8_t *buffer,
  * @param[in] length Number of bytes to peek.
  * @param[in] offset Offset in bytes to start peeking at.
  *
- * @return 1 on success, or 0 if there are not enough data to peek the
- *         requested number of bytes.
+ * @retval true Success.
+ * @retval false Not enough data to peek the requested number of bytes.
  */
-LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
+LIBSWO_PRIV bool buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset)
 {
 	size_t tmp;
 
 	if (length + offset > ctx->bytes_available)
-		return 0;
+		return false;
 
 	if (ctx->read_pos + offset > ctx->size) {
 		tmp = ctx->read_pos + offset - ctx->size;
@@ -91,7 +92,7 @@ LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		memcpy(buffer, ctx->buffer + ctx->read_pos + offset, length);
 	}
 
-	return 1;
+	return true;
 }
 
 /**
@@ -100,18 +101,18 @@ LIBSWO_PRIV int buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
  * @param[in,out] ctx libswo context.
  * @param[in] length Number of bytes to remove.
  *
- * @return 1 on success, or 0 if there are not enough bytes in the buffer to be
- *         removed.
+ * @retval true Success.
+ * @retval false Not enough data to remove the requested number of bytes.
  */
-LIBSWO_PRIV int buffer_remove(struct libswo_context *ctx, size_t length)
+LIBSWO_PRIV bool buffer_remove(struct libswo_context *ctx, size_t length)
 {
 	if (length > ctx->bytes_available)
-		return 0;
+		return false;
 
 	ctx->bytes_available -= length;
 	ctx->read_pos = (ctx->read_pos + length) % ctx->size;
 
-	return 1;
+	return true;
 }
 
 /**
