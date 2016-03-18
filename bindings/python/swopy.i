@@ -49,6 +49,8 @@ static int swig_exception_code(int code)
 		return SWIG_MemoryError;
 	case LIBSWO_ERR_ARG:
 		return SWIG_ValueError;
+	default:
+		break;
 	}
 
 	return SWIG_RuntimeError;

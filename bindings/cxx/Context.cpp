@@ -140,6 +140,8 @@ static int packet_callback(struct libswo_context *ctx,
 	case LIBSWO_PACKET_TYPE_UNKNOWN:
 		tmp = new Unknown(packet);
 		break;
+	default:
+		return LIBSWO_ERR;
 	}
 
 	ret = helper->callback(*tmp, helper->user_data);

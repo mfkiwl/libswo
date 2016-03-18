@@ -562,6 +562,10 @@ LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
 		case LIBSWO_PACKET_TYPE_UNKNOWN:
 			ret = handle_unknown_header(ctx, header);
 			break;
+		default:
+			log_err(ctx, "Invalid packet type %i for header %02x.",
+				packet_type, header);
+			return LIBSWO_ERR;
 		}
 
 		if (!ret)
