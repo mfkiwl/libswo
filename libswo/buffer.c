@@ -1,5 +1,5 @@
 /*
- * This file is part of the swodec project.
+ * This file is part of the libswo project.
  *
  * Copyright (C) 2014-2015 Marc Schink <swo-dev@marcschink.de>
  *
