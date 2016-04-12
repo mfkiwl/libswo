@@ -304,7 +304,7 @@ typedef int (*libswo_log_callback)(struct libswo_context *ctx, int level,
                 const char *format, va_list args, void *user_data);
 
 /** Macro to mark private libswo symbol. */
-#if defined(_WIN32) || defined(__MSYS__)
+#if defined(_WIN32) || defined(__MSYS__) || defined(__CYGWIN__)
 #define LIBSWO_PRIV
 #else
 #define LIBSWO_PRIV __attribute__ ((visibility ("hidden")))
