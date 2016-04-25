@@ -191,6 +191,15 @@ AC_CONFIG_FILES([libswo.pc])
 AC_OUTPUT
 
 echo
+echo "libswo configuration summary:"
+echo " - Package version ................ $LIBSWO_VERSION_PACKAGE"
+echo " - Library version ................ $LIBSWO_VERSION_LIB"
+echo " - Installation prefix ............ $prefix"
+echo " - Building on .................... $build"
+echo " - Building for ................... $host"
+
+echo
 echo "Enabled language bindings:"
 echo " - C++ ............................ $BINDINGS_CXX$cxx_msg"
 echo " - Python ......................... $BINDINGS_PYTHON$python_msg"
+echo
