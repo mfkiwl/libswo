@@ -30,8 +30,8 @@ swopy:
 # Use empty target build-lock to ensure that the Python module is built only if
 # one of its source files has changed since the last invocation.
 build-lock: setup.py $(srcdir)/swopy.i Context.h $(CXX_BUILDDIR)/libswocxx.la
-	swig -python -c++ -Wall -outdir swopy -outcurrentdir -I$(CXX_SRCDIR) \
-		$(srcdir)/swopy.i
+	$(SWIG) -python -c++ -Wall -outdir swopy -outcurrentdir \
+		-I$(CXX_SRCDIR) $(srcdir)/swopy.i
 	$(PYTHON) setup.py --quiet build
 	touch build-lock
 

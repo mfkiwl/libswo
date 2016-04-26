@@ -71,7 +71,7 @@ PKG_PROG_PKG_CONFIG
 AC_SUBST(AM_LIBTOOLFLAGS, '--silent')
 
 # Check for SWIG.
-AC_CHECK_PROG([HAVE_SWIG], [swig], [yes])
+AC_CHECK_PROGS([SWIG], [swig swig3.0 swig2.0])
 
 # Check for Python interpreter.
 AM_PATH_PYTHON([2.7], [HAVE_PYTHON="yes"], [HAVE_PYTHON="no"])
@@ -116,7 +116,7 @@ if test "x$HAVE_PYMOD_SETUPTOOLS" == "xno"; then
 	BINDINGS_PYTHON="no"
 fi
 
-if test "x$HAVE_SWIG" != "xyes"; then
+if test "x$SWIG" = "x"; then
 	python_msg="SWIG required"
 	BINDINGS_PYTHON="no"
 fi
