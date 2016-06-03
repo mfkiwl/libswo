@@ -30,6 +30,7 @@ libswocxx_la_SOURCES = \
 	LocalTimestamp.cpp \
 	Overflow.cpp \
 	Packet.cpp \
+	PayloadPacket.cpp \
 	Synchronization.cpp \
 	Unknown.cpp \
 	Version.cpp

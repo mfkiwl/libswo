@@ -133,11 +133,17 @@ struct libswo_packet_any {
 	/** Packet type. */
 	enum libswo_packet_type type;
 	/**
-	 * Packet size information.
+	 * Packet size.
 	 *
 	 * Interpretation of this value depends on the specific packet type.
 	 */
 	size_t size;
+	/**
+	 * Packet data.
+	 *
+	 * Interpretation of this field depends on the specific packet type.
+	 */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 };
 
 /** Synchronization packet. */
@@ -146,6 +152,12 @@ struct libswo_packet_sync {
 	enum libswo_packet_type type;
 	/** Packet size in bits. */
 	size_t size;
+	/**
+	 * Packet data.
+	 *
+	 * @note This field contains no valid data and must not be used.
+	 */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 };
 
 /** Overflow packet. */
@@ -154,6 +166,8 @@ struct libswo_packet_of {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 };
 
 /** Local timestamp packet. */
@@ -162,6 +176,8 @@ struct libswo_packet_lts {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/**
 	 * Indicates the relationship between the generation of local timestamp
 	 * packet and the corresponding source packet.
@@ -177,6 +193,8 @@ struct libswo_packet_gts1 {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/** Low-order bits [25:0] of the global timestamp value. */
 	uint32_t value;
 	/**
@@ -197,6 +215,8 @@ struct libswo_packet_gts2 {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/** High-order bits [47:26] of the global timestamp value. */
 	uint32_t value;
 };
@@ -207,6 +227,8 @@ struct libswo_packet_ext {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/** Source of the extension packet. */
 	enum libswo_ext_source source;
 	/** Extension information. */
@@ -219,6 +241,8 @@ struct libswo_packet_inst {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/** Port number. */
 	uint8_t address;
 	/** Instrumentation data. */
@@ -233,6 +257,8 @@ struct libswo_packet_hw {
 	enum libswo_packet_type type;
 	/** Packet size including the header in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 	/** Address. */
 	uint8_t address;
 	/** Hardware source data. */
@@ -251,6 +277,8 @@ struct libswo_packet_unknown {
 	enum libswo_packet_type type;
 	/** Packet size in bytes. */
 	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 };
 
 /** Union of all packet types. */

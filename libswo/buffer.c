@@ -96,6 +96,43 @@ LIBSWO_PRIV bool buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 }
 
 /**
+ * Read data from the buffer.
+ *
+ * @param[in] ctx libswo context.
+ * @param[out] buffer Buffer to store read data into. Its content is undefined
+ *                    on failure.
+ * @param[in] length Number of bytes to read.
+ * @param[in] offset Offset in bytes to start reading at.
+ *
+ * @retval true Success.
+ * @retval false Not enough data to read the requested number of bytes.
+ */
+LIBSWO_PRIV bool buffer_read(struct libswo_context *ctx, uint8_t *buffer,
+		size_t length, size_t offset)
+{
+	size_t tmp;
+
+	if (length + offset > ctx->bytes_available)
+		return false;
+
+	if (ctx->read_pos + offset > ctx->size) {
+		tmp = ctx->read_pos + offset - ctx->size;
+		memcpy(buffer, ctx->buffer + tmp, length);
+	} else if (ctx->read_pos + offset + length > ctx->size) {
+		tmp = ctx->size - ctx->read_pos - offset;
+		memcpy(buffer, ctx->buffer + ctx->read_pos + offset, tmp);
+		memcpy(buffer + tmp, ctx->buffer, length - tmp);
+	} else {
+		memcpy(buffer, ctx->buffer + ctx->read_pos + offset, length);
+	}
+
+	ctx->bytes_available -= length;
+	ctx->read_pos = (ctx->read_pos + length) % ctx->size;
+
+	return true;
+}
+
+/**
  * Remove data from the buffer.
  *
  * @param[in,out] ctx libswo context.

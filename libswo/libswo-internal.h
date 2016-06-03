@@ -70,6 +70,8 @@ struct libswo_context {
 
 LIBSWO_PRIV bool buffer_write(struct libswo_context *ctx,
 		const uint8_t *buffer, size_t length);
+LIBSWO_PRIV bool buffer_read(struct libswo_context *ctx, uint8_t *buffer,
+		size_t length, size_t offset);
 LIBSWO_PRIV bool buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 		size_t length, size_t offset);
 LIBSWO_PRIV bool buffer_remove(struct libswo_context *ctx, size_t length);

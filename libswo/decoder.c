@@ -447,22 +447,34 @@ static bool handle_unknown_header(struct libswo_context *ctx, uint8_t header)
 static int handle_eos(struct libswo_context *ctx)
 {
 	int ret;
+	size_t tmp;
 
 	log_dbg(ctx, "Treating %u remaining bytes as unknown data.",
 		ctx->bytes_available);
 
 	ctx->packet.type = LIBSWO_PACKET_TYPE_UNKNOWN;
-	ctx->packet.unknown.size = ctx->bytes_available;
 
-	if (ctx->callback)
-		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
-	else
-		ret = true;
+	while (ctx->bytes_available > 0) {
+		tmp = MIN(sizeof(ctx->packet.any.data), ctx->bytes_available);
 
-	buffer_flush(ctx);
-	ctx->packet.any.size = 0;
+		ctx->packet.unknown.size = tmp;
+		buffer_read(ctx, ctx->packet.unknown.data, tmp, 0);
 
-	return ret;
+		if (ctx->callback)
+			ret = ctx->callback(ctx, &ctx->packet,
+				ctx->cb_user_data);
+		else
+			ret = true;
+
+		if (ret < 0) {
+			return ret;
+		} else if (!ret) {
+			log_dbg(ctx, "Decoding stopped by callback function.");
+			return LIBSWO_OK;
+		}
+	}
+
+	return LIBSWO_OK;
 }
 
 static int handle_packet(struct libswo_context *ctx)
@@ -470,18 +482,19 @@ static int handle_packet(struct libswo_context *ctx)
 	int ret;
 	size_t tmp;
 
+	if (ctx->packet.type == LIBSWO_PACKET_TYPE_SYNC) {
+		tmp = (ctx->packet.sync.size + 7) / 8;
+	} else {
+		tmp = ctx->packet.any.size;
+		buffer_peek(ctx, ctx->packet.any.data, tmp, 0);
+	}
+
 	if (ctx->callback)
 		ret = ctx->callback(ctx, &ctx->packet, ctx->cb_user_data);
 	else
 		ret = true;
 
-	if (ctx->packet.type == LIBSWO_PACKET_TYPE_SYNC)
-		tmp = (ctx->packet.sync.size + 7) / 8;
-	else
-		tmp = ctx->packet.any.size;
-
 	buffer_remove(ctx, tmp);
-	ctx->packet.any.size = 0;
 
 	return ret;
 }
