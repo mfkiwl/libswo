@@ -380,10 +380,10 @@ LIBSWO_API int libswo_version_package_get_major(void);
 LIBSWO_API int libswo_version_package_get_minor(void);
 LIBSWO_API int libswo_version_package_get_micro(void);
 LIBSWO_API const char *libswo_version_package_get_string(void);
-LIBSWO_API int libswo_version_lib_get_current(void);
-LIBSWO_API int libswo_version_lib_get_revision(void);
-LIBSWO_API int libswo_version_lib_get_age(void);
-LIBSWO_API const char *libswo_version_lib_get_string(void);
+LIBSWO_API int libswo_version_library_get_current(void);
+LIBSWO_API int libswo_version_library_get_revision(void);
+LIBSWO_API int libswo_version_library_get_age(void);
+LIBSWO_API const char *libswo_version_library_get_string(void);
 
 #include "version.h"
 

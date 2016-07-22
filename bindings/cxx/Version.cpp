@@ -42,24 +42,24 @@ string Version::get_package_string(void)
 	return libswo_version_package_get_string();
 }
 
-int Version::get_lib_current(void)
+int Version::get_library_current(void)
 {
-	return libswo_version_lib_get_current();
+	return libswo_version_library_get_current();
 }
 
-int Version::get_lib_revision(void)
+int Version::get_library_revision(void)
 {
-	return libswo_version_lib_get_revision();
+	return libswo_version_library_get_revision();
 }
 
-int Version::get_lib_age(void)
+int Version::get_library_age(void)
 {
-	return libswo_version_lib_get_age();
+	return libswo_version_library_get_age();
 }
 
-string Version::get_lib_string(void)
+string Version::get_library_string(void)
 {
-	return libswo_version_lib_get_string();
+	return libswo_version_library_get_string();
 }
 
 }

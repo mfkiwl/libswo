@@ -72,7 +72,7 @@ LIBSWO_API const char *libswo_version_package_get_string(void)
  *
  * @return The <i>current</i> version number of the libswo libtool interface.
  */
-LIBSWO_API int libswo_version_lib_get_current(void)
+LIBSWO_API int libswo_version_library_get_current(void)
 {
 	return LIBSWO_VERSION_LIB_CURRENT;
 }
@@ -82,7 +82,7 @@ LIBSWO_API int libswo_version_lib_get_current(void)
  *
  * @return The <i>revision</i> version number of the libswo libtool interface.
  */
-LIBSWO_API int libswo_version_lib_get_revision(void)
+LIBSWO_API int libswo_version_library_get_revision(void)
 {
 	return LIBSWO_VERSION_LIB_REVISION;
 }
@@ -92,7 +92,7 @@ LIBSWO_API int libswo_version_lib_get_revision(void)
  *
  * @return The <i>age</i> version number of the libswo libtool interface.
  */
-LIBSWO_API int libswo_version_lib_get_age(void)
+LIBSWO_API int libswo_version_library_get_age(void)
 {
 	return LIBSWO_VERSION_LIB_AGE;
 }
@@ -104,7 +104,7 @@ LIBSWO_API int libswo_version_lib_get_age(void)
  *         interface. The string is null-terminated and must not be free'd by
  *         the caller.
  */
-LIBSWO_API const char *libswo_version_lib_get_string(void)
+LIBSWO_API const char *libswo_version_library_get_string(void)
 {
 	return LIBSWO_VERSION_LIB_STRING;
 }
