@@ -39,15 +39,15 @@
 #define LIBSWO_VERSION_PACKAGE_STRING "@LIBSWO_VERSION_PACKAGE@"
 
 /** <i>Current</i> version number of the libswo libtool interface. */
-#define LIBSWO_VERSION_LIB_CURRENT @LIBSWO_VERSION_LIB_CURRENT@
+#define LIBSWO_VERSION_LIBRARY_CURRENT @LIBSWO_VERSION_LIB_CURRENT@
 
 /** <i>Revision</i> version number of the libswo libtool interface. */
-#define LIBSWO_VERSION_LIB_REVISION @LIBSWO_VERSION_LIB_REVISION@
+#define LIBSWO_VERSION_LIBRARY_REVISION @LIBSWO_VERSION_LIB_REVISION@
 
 /** <i>Age</i> version number of the libswo libtool interface. */
-#define LIBSWO_VERSION_LIB_AGE @LIBSWO_VERSION_LIB_AGE@
+#define LIBSWO_VERSION_LIBRARY_AGE @LIBSWO_VERSION_LIB_AGE@
 
 /** Version number string of the libswo libtool interface. */
-#define LIBSWO_VERSION_LIB_STRING "@LIBSWO_VERSION_LIB@"
+#define LIBSWO_VERSION_LIBRARY_STRING "@LIBSWO_VERSION_LIB@"
 
 #endif /* LIBSWO_VERSION_H */

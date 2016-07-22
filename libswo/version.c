@@ -74,7 +74,7 @@ LIBSWO_API const char *libswo_version_package_get_string(void)
  */
 LIBSWO_API int libswo_version_library_get_current(void)
 {
-	return LIBSWO_VERSION_LIB_CURRENT;
+	return LIBSWO_VERSION_LIBRARY_CURRENT;
 }
 
 /**
@@ -84,7 +84,7 @@ LIBSWO_API int libswo_version_library_get_current(void)
  */
 LIBSWO_API int libswo_version_library_get_revision(void)
 {
-	return LIBSWO_VERSION_LIB_REVISION;
+	return LIBSWO_VERSION_LIBRARY_REVISION;
 }
 
 /**
@@ -94,7 +94,7 @@ LIBSWO_API int libswo_version_library_get_revision(void)
  */
 LIBSWO_API int libswo_version_library_get_age(void)
 {
-	return LIBSWO_VERSION_LIB_AGE;
+	return LIBSWO_VERSION_LIBRARY_AGE;
 }
 
 /**
@@ -106,5 +106,5 @@ LIBSWO_API int libswo_version_library_get_age(void)
  */
 LIBSWO_API const char *libswo_version_library_get_string(void)
 {
-	return LIBSWO_VERSION_LIB_STRING;
+	return LIBSWO_VERSION_LIBRARY_STRING;
 }
