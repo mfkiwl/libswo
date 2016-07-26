@@ -111,7 +111,7 @@ AC_ARG_ENABLE([python], AS_HELP_STRING([--enable-python],
 cxx_msg=""
 python_msg=""
 
-if test "x$HAVE_PYMOD_SETUPTOOLS" == "xno"; then
+if test "x$HAVE_PYMOD_SETUPTOOLS" = "xno"; then
 	python_msg="Python setuptools required"
 	BINDINGS_PYTHON="no"
 fi
@@ -121,35 +121,35 @@ if test "x$SWIG" = "x"; then
 	BINDINGS_PYTHON="no"
 fi
 
-if test "x$HAVE_PYTHON_DEV" == "xno"; then
+if test "x$HAVE_PYTHON_DEV" = "xno"; then
 	python_msg="Python development files required"
 	BINDINGS_PYTHON="no"
 fi
 
-if test "x$HAVE_PYTHON" == "xno"; then
+if test "x$HAVE_PYTHON" = "xno"; then
 	python_msg="Python interpreter required"
 	BINDINGS_PYTHON="no"
 fi
 
 # Enable C++ bindings if not already enabled as they are required for Python
 # bindings.
-if test "x$BINDINGS_PYTHON$BINDINGS_CXX" == "xyesno"; then
+if test "x$BINDINGS_PYTHON$BINDINGS_CXX" = "xyesno"; then
 	cxx_msg="enabled for Python bindings"
 	BINDINGS_CXX="yes";
 fi
 
-if test "x$BINDINGS_CXX$HAVE_CXX" == "xyesno"; then
+if test "x$BINDINGS_CXX$HAVE_CXX" = "xyesno"; then
 	cxx_msg="C++ compiler required"
 	BINDINGS_CXX="no"
 fi
 
-if test "x$BINDINGS_PYTHON$BINDINGS_CXX" == "xyesno"; then
+if test "x$BINDINGS_PYTHON$BINDINGS_CXX" = "xyesno"; then
 	python_msg="C++ bindings required"
 	BINDINGS_PYTHON="no"
 fi
 
-AM_CONDITIONAL(BINDINGS_CXX, [test "x$BINDINGS_CXX" == "xyes"])
-AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" == "xyes"])
+AM_CONDITIONAL(BINDINGS_CXX, [test "x$BINDINGS_CXX" = "xyes"])
+AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" = "xyes"])
 
 if test "x$cxx_msg" != "x"; then
 	cxx_msg=" ($cxx_msg)"
