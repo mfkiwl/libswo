@@ -85,16 +85,12 @@ void libswo::Context::feed(const uint8_t *data, size_t length);
 Context::Context(size_t buffer_size) :
 	libswo::Context(buffer_size)
 {
-	_py_args = NULL;
 	_py_callback = NULL;
-	_py_user_data = NULL;
 }
 
 Context::~Context(void)
 {
-	Py_XDECREF(_py_args);
 	Py_XDECREF(_py_callback);
-	Py_XDECREF(_py_user_data);
 }
 
 static PyObject *packet_object(const libswo::Packet &packet)
@@ -147,17 +143,8 @@ static PyObject *packet_object(const libswo::Packet &packet)
 static int packet_callback(const libswo::Packet &packet, void *user_data)
 {
 	int ret;
-	PyObject *func;
 	PyObject *res;
-	PyObject *tmp;
 	PyObject *obj;
-
-	ret = PyArg_ParseTuple((PyObject *)user_data, "OO", &func, &tmp);
-
-	if (!ret) {
-		PyErr_Print();
-		return LIBSWO_ERR;
-	}
 
 	obj = packet_object(packet);
 
@@ -168,7 +155,7 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 		return LIBSWO_ERR;
 	}
 
-	res = PyObject_CallFunctionObjArgs(func, obj, tmp, NULL);
+	res = PyObject_CallFunctionObjArgs((PyObject *)user_data, obj, NULL);
 	Py_DECREF(obj);
 
 	if (!res) {
@@ -192,26 +179,17 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 	return ret;
 }
 
-void Context::set_callback(PyObject *callback, PyObject *user_data)
+void Context::set_callback(PyObject *callback)
 {
-	if (!user_data)
-		user_data = Py_None;
-
 	if (!PyCallable_Check(callback))
 		throw libswo::Error(LIBSWO_ERR_ARG);
 
-	Py_XDECREF(_py_args);
 	Py_XDECREF(_py_callback);
-	Py_XDECREF(_py_user_data);
 
 	_py_callback = callback;
 	Py_INCREF(_py_callback);
 
-	_py_user_data = user_data;
-	Py_INCREF(_py_user_data);
-
-	_py_args = Py_BuildValue("(OO)", _py_callback, _py_user_data);
-	libswo::Context::set_callback(&packet_callback, (void *)_py_args);
+	libswo::Context::set_callback(&packet_callback, (void *)_py_callback);
 }
 %}
 

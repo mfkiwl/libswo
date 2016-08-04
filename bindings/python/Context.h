@@ -30,11 +30,9 @@ public:
 	Context(size_t buffer_size);
 	~Context(void);
 
-	void set_callback(PyObject *pyfunc, PyObject *user_data = NULL);
+	void set_callback(PyObject *callback);
 private:
-	PyObject *_py_args;
 	PyObject *_py_callback;
-	PyObject *_py_user_data;
 };
 
 #endif /* LIBSWO_BINDINGS_PYTHON_CONTEXT_H */
