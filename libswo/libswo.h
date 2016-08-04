@@ -327,7 +327,18 @@ struct libswo_context;
 typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);
 
-/** Log callback function type. */
+/**
+ * Log callback function type.
+ *
+ * @param[in,out] ctx libswo context.
+ * @param[in] level Log level.
+ * @param[in] format Message format in printf()-style.
+ * @param[in] args Message arguments.
+ * @param[in,out] user_data User data passed to the callback function.
+ *
+ * @return Number of characters printed on success, or a negative error code on
+ *         failure.
+ */
 typedef int (*libswo_log_callback)(struct libswo_context *ctx,
 		enum libswo_log_level level, const char *format,
 		va_list args, void *user_data);
