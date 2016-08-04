@@ -42,12 +42,13 @@
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level)
+LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx,
+		enum libswo_log_level level)
 {
 	if (!ctx)
 		return LIBSWO_ERR_ARG;
 
-	if (level < LIBSWO_LOG_LEVEL_NONE || level > LIBSWO_LOG_LEVEL_DEBUG)
+	if (level > LIBSWO_LOG_LEVEL_DEBUG)
 		return LIBSWO_ERR_ARG;
 
 	ctx->log_level = level;
@@ -156,8 +157,9 @@ LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx)
 }
 
 /** @private */
-LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
-		const char *format, va_list args, void *user_data)
+LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx,
+		enum libswo_log_level level, const char *format,
+		va_list args, void *user_data)
 {
 	(void)user_data;
 

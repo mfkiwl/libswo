@@ -36,7 +36,7 @@
 
 struct libswo_context {
 	/** Current log level. */
-	int log_level;
+	enum libswo_log_level log_level;
 	/** Log callback function. */
 	libswo_log_callback log_callback;
 	/** User data to be passed to the log callback function. */
@@ -79,8 +79,9 @@ LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
 
 /*--- log.c -----------------------------------------------------------------*/
 
-LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx, int level,
-		const char *format, va_list args, void *user_data);
+LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx,
+		enum libswo_log_level level, const char *format,
+		va_list args, void *user_data);
 LIBSWO_PRIV void log_err(struct libswo_context *ctx, const char *format, ...);
 LIBSWO_PRIV void log_warn(struct libswo_context *ctx, const char *format, ...);
 LIBSWO_PRIV void log_info(struct libswo_context *ctx, const char *format, ...);

@@ -64,7 +64,8 @@ void Context::set_log_level(enum LogLevel level)
 {
 	int ret;
 
-	ret = libswo_log_set_level(_context, level);
+	ret = libswo_log_set_level(_context,
+		static_cast<enum libswo_log_level>(level));
 
 	if (ret != LIBSWO_OK)
 		throw Error(ret);

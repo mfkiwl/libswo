@@ -328,8 +328,9 @@ typedef int (*libswo_decoder_callback)(struct libswo_context *ctx,
 		const union libswo_packet *packet, void *user_data);
 
 /** Log callback function type. */
-typedef int (*libswo_log_callback)(struct libswo_context *ctx, int level,
-                const char *format, va_list args, void *user_data);
+typedef int (*libswo_log_callback)(struct libswo_context *ctx,
+		enum libswo_log_level level, const char *format,
+		va_list args, void *user_data);
 
 /** Macro to mark private libswo symbol. */
 #if defined(_WIN32) || defined(__MSYS__) || defined(__CYGWIN__)
@@ -366,7 +367,8 @@ LIBSWO_API const char *libswo_strerror_name(int error_code);
 
 /*--- log.c -----------------------------------------------------------------*/
 
-LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
+LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx,
+		enum libswo_log_level level);
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx,
 		enum libswo_log_level *level);
 LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
