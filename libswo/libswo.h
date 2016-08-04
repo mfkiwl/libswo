@@ -367,7 +367,8 @@ LIBSWO_API const char *libswo_strerror_name(int error_code);
 /*--- log.c -----------------------------------------------------------------*/
 
 LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level);
-LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx);
+LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx,
+		enum libswo_log_level *level);
 LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
 		libswo_log_callback callback, void *user_data);
 LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,

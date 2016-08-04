@@ -59,17 +59,20 @@ LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx, int level)
  * Get the libswo log level.
  *
  * @param[in,out] ctx libswo context.
+ * @param[out] level Log level on success, and undefined on failure.
  *
- * @return The current log level on success, or a negative error code
- *         on failure. See #libswo_log_level for a description of each
- *         individual log level.
+ * @retval LIBSWO_OK Success.
+ * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx)
+LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx,
+		enum libswo_log_level *level)
 {
-	if (!ctx)
+	if (!ctx || !level)
 		return LIBSWO_ERR_ARG;
 
-	return ctx->log_level;
+	*level = ctx->log_level;
+
+	return LIBSWO_OK;
 }
 
 /**

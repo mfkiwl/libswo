@@ -50,13 +50,14 @@ Context::~Context(void)
 enum LogLevel Context::get_log_level(void) const
 {
 	int ret;
+	enum libswo_log_level level;
 
-	ret = libswo_log_get_level(_context);
+	ret = libswo_log_get_level(_context, &level);
 
-	if (ret < 0)
+	if (ret != LIBSWO_OK)
 		throw Error(ret);
 
-	return static_cast<enum LogLevel>(ret);
+	return static_cast<enum LogLevel>(level);
 }
 
 void Context::set_log_level(enum LogLevel level)
