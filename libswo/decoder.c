@@ -449,7 +449,7 @@ static int handle_eos(struct libswo_context *ctx)
 	int ret;
 	size_t tmp;
 
-	log_dbg(ctx, "Treating %u remaining bytes as unknown data.",
+	log_dbg(ctx, "Treating %zu remaining bytes as unknown data.",
 		ctx->bytes_available);
 
 	ctx->packet.type = LIBSWO_PACKET_TYPE_UNKNOWN;
