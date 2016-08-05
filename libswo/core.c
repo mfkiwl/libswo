@@ -101,14 +101,19 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
  * Shutdown libswo.
  *
  * @param[in,out] ctx libswo context.
+ *
+ * @retval LIBSWO_OK Success.
+ * @retval LIBSWO_ERR_ARG Invalid arguments.
  */
-LIBSWO_API void libswo_exit(struct libswo_context *ctx)
+LIBSWO_API int libswo_exit(struct libswo_context *ctx)
 {
 	if (!ctx)
-		return;
+		return LIBSWO_ERR_ARG;
 
 	if (ctx->free_buffer)
 		free(ctx->buffer);
 
 	free(ctx);
+
+	return LIBSWO_OK;
 }

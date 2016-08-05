@@ -361,7 +361,7 @@ typedef int (*libswo_log_callback)(struct libswo_context *ctx,
 
 LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size);
-LIBSWO_API void libswo_exit(struct libswo_context *ctx);
+LIBSWO_API int libswo_exit(struct libswo_context *ctx);
 
 /*--- decoder.c -------------------------------------------------------------*/
 
