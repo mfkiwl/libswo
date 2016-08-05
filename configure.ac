@@ -77,8 +77,12 @@ AC_CHECK_PROGS([SWIG], [swig swig3.0 swig2.0])
 AM_PATH_PYTHON([2.7], [HAVE_PYTHON="yes"], [HAVE_PYTHON="no"])
 
 # Check for Python development files.
-PKG_CHECK_MODULES([python27], [python-2.7 >= 2.7],
-	[HAVE_PYTHON_DEV="yes"], [HAVE_PYTHON_DEV="no"])
+AC_MSG_CHECKING([for Python development files])
+
+AS_IF([test -x "$(command -v $PYTHON-config)"], [HAVE_PYTHON_DEV="yes"],
+	[HAVE_PYTHON_DEV="no"])
+
+AC_MSG_RESULT([$HAVE_PYTHON_DEV])
 
 # Check for Python setuptools.
 AX_PYTHON_MODULE([setuptools])
