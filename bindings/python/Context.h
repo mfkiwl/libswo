@@ -31,8 +31,10 @@ public:
 	~Context(void);
 
 	void set_callback(PyObject *callback);
+	void set_log_callback(PyObject *callback);
 private:
 	PyObject *_py_callback;
+	PyObject *_py_log_callback;
 };
 
 #endif /* LIBSWO_BINDINGS_PYTHON_CONTEXT_H */

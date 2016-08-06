@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdio.h>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -88,6 +90,66 @@ void Context::set_log_domain(const string &domain)
 	int ret;
 
 	ret = libswo_log_set_domain(_context, domain.c_str());
+
+	if (ret != LIBSWO_OK)
+		throw Error(ret);
+}
+
+static int log_callback(struct libswo_context *ctx,
+		enum libswo_log_level level, const char *format, va_list args,
+		void *user_data)
+{
+	int ret;
+	LogCallbackHelper *helper;
+	int length;
+	va_list args_copy;
+	char *tmp;
+	std::string message;
+
+	(void)ctx;
+
+	helper = (LogCallbackHelper *)user_data;
+
+	va_copy(args_copy, args);
+	length = vsnprintf(NULL, 0, format, args_copy);
+	va_end(args_copy);
+
+	if (length < 0)
+		return LIBSWO_ERR;
+
+	tmp = (char *)malloc(length + 1);
+
+	if (!tmp)
+		return LIBSWO_ERR_MALLOC;
+
+	length = vsnprintf(tmp, length + 1, format, args);
+
+	if (length < 0) {
+		free(tmp);
+		return LIBSWO_ERR;
+	}
+
+	message.assign(tmp, length);
+	free(tmp);
+
+	ret = helper->callback(static_cast<enum LogLevel>(level), message,
+		helper->user_data);
+
+	return ret;
+}
+
+void Context::set_log_callback(LogCallback callback, void *user_data)
+{
+	int ret;
+
+	if (callback) {
+		_log_callback.callback = callback;
+		_log_callback.user_data = user_data;
+		ret = libswo_log_set_callback(_context, &log_callback,
+			&_log_callback);
+	} else {
+		ret = libswo_set_callback(_context, NULL, NULL);
+	}
 
 	if (ret != LIBSWO_OK)
 		throw Error(ret);

@@ -86,11 +86,71 @@ Context::Context(size_t buffer_size) :
 	libswo::Context(buffer_size)
 {
 	_py_callback = NULL;
+	_py_log_callback = NULL;
 }
 
 Context::~Context(void)
 {
 	Py_XDECREF(_py_callback);
+	Py_XDECREF(_py_log_callback);
+}
+
+static int log_callback(libswo::LogLevel level, const std::string &message,
+		void *user_data)
+{
+	int ret;
+	PyObject *level_obj;
+	PyObject *message_obj;
+	PyObject *res;
+
+	level_obj = PyLong_FromUnsignedLong(level);
+
+	if (!level_obj)
+		return LIBSWO_ERR;
+
+	message_obj = PyUnicode_FromString(message.c_str());
+
+	if (!message_obj)
+		return LIBSWO_ERR;
+
+	res = PyObject_CallFunctionObjArgs((PyObject *)user_data, level_obj,
+		message_obj, NULL);
+	Py_DECREF(level_obj);
+	Py_DECREF(message_obj);
+
+	if (!res) {
+		PyErr_Print();
+		return LIBSWO_ERR;
+	}
+
+	if (res == Py_None || res == Py_True) {
+		ret = 1;
+	} else if (res == Py_False) {
+		ret = 0;
+	} else {
+		PyErr_SetString(PyExc_TypeError, "log callback function "
+			"neither returned a boolean value nor None");
+		PyErr_Print();
+		ret = LIBSWO_ERR;
+	}
+
+	Py_DECREF(res);
+
+	return ret;
+}
+
+void Context::set_log_callback(PyObject *callback)
+{
+	if (!PyCallable_Check(callback))
+		throw libswo::Error(LIBSWO_ERR_ARG);
+
+	Py_XDECREF(_py_log_callback);
+
+	_py_log_callback = callback;
+	Py_INCREF(_py_log_callback);
+
+	libswo::Context::set_log_callback(&log_callback,
+		(void *)_py_log_callback);
 }
 
 static PyObject *packet_object(const libswo::Packet &packet)

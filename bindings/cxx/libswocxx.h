@@ -98,6 +98,8 @@ public:
 };
 
 typedef int (*DecoderCallback)(const Packet &packet, void *user_data);
+typedef int (*LogCallback)(enum LogLevel level, const std::string &message,
+		void *user_data);
 
 class LIBSWO_API Synchronization : public Packet
 {
@@ -189,6 +191,13 @@ public:
 	void *user_data;
 };
 
+class LIBSWO_PRIV LogCallbackHelper
+{
+public:
+	LogCallback callback;
+	void *user_data;
+};
+
 class LIBSWO_API Context
 {
 public:
@@ -201,6 +210,7 @@ public:
 
 	string get_log_domain(void) const;
 	void set_log_domain(const string &domain);
+	void set_log_callback(LogCallback callback, void *user_data = NULL);
 
 	void set_callback(DecoderCallback callback, void *user_data = NULL);
 
@@ -209,6 +219,7 @@ public:
 private:
 	struct libswo_context *_context;
 	DecoderCallbackHelper _decoder_callback;
+	LogCallbackHelper _log_callback;
 };
 
 class LIBSWO_API Version {
