@@ -105,67 +105,72 @@ LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIB"
 AC_SUBST([LIBSWO_LIB_LDFLAGS])
 
 AC_ARG_ENABLE(cxx, AS_HELP_STRING([--enable-cxx],
-	[enable C++ bindings [default=no]]),
-	[BINDINGS_CXX="$enableval"], [BINDINGS_CXX="no"])
+	[enable C++ bindings [default=yes]]),
+	[], [enable_cxx="yes"])
 
 AC_ARG_ENABLE([python], AS_HELP_STRING([--enable-python],
-	[enable Python bindings [default=no]]),
-	[BINDINGS_PYTHON="$enableval"], [BINDINGS_PYTHON="no"])
+	[enable Python bindings [default=yes]]),
+	[], [enable_python="yes"])
+
+if test "x$enable_cxx" != "xno"; then
+	enable_cxx="yes"
+fi
+
+if test "x$enable_python" != "xno"; then
+	enable_python="yes"
+fi
 
 cxx_msg=""
 python_msg=""
 
+if test "x$HAVE_CXX" = "xno"; then
+	cxx_msg="C++ compiler required"
+fi
+
+if test "x$enable_cxx" = "xno"; then
+	cxx_msg="disabled"
+fi
+
+if test -z "$cxx_msg"; then
+	BINDINGS_CXX=$enable_cxx
+else
+	BINDINGS_CXX="no"
+	cxx_msg=" ($cxx_msg)"
+fi
+
 if test "x$HAVE_PYMOD_SETUPTOOLS" = "xno"; then
 	python_msg="Python setuptools required"
-	BINDINGS_PYTHON="no"
 fi
 
 if test "x$SWIG" = "x"; then
 	python_msg="SWIG required"
-	BINDINGS_PYTHON="no"
 fi
 
 if test "x$HAVE_PYTHON_DEV" = "xno"; then
 	python_msg="Python development files required"
-	BINDINGS_PYTHON="no"
 fi
 
 if test "x$HAVE_PYTHON" = "xno"; then
 	python_msg="Python interpreter required"
-	BINDINGS_PYTHON="no"
 fi
 
-# Enable C++ bindings if not already enabled as they are required for Python
-# bindings.
-if test "x$BINDINGS_PYTHON$BINDINGS_CXX" = "xyesno"; then
-	cxx_msg="enabled for Python bindings"
-	BINDINGS_CXX="yes";
-fi
-
-if test "x$BINDINGS_CXX$HAVE_CXX" = "xyesno"; then
-	cxx_msg="C++ compiler required"
-	BINDINGS_CXX="no"
-fi
-
-if test "x$BINDINGS_PYTHON$BINDINGS_CXX" = "xyesno"; then
+if test "x$enable_python$BINDINGS_CXX" = "xyesno"; then
 	python_msg="C++ bindings required"
+fi
+
+if test "x$enable_python" = "xno"; then
+	python_msg="disabled"
+fi
+
+if test -z "$python_msg"; then
+	BINDINGS_PYTHON=$enable_python
+else
 	BINDINGS_PYTHON="no"
+	python_msg=" ($python_msg)"
 fi
 
 AM_CONDITIONAL(BINDINGS_CXX, [test "x$BINDINGS_CXX" = "xyes"])
 AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" = "xyes"])
-
-if test "x$cxx_msg" != "x"; then
-	cxx_msg=" ($cxx_msg)"
-elif test "x$enable_cxx" != "xyes"; then
-	cxx_msg=" (disabled)"
-fi
-
-if test "x$enable_python" != "xyes"; then
-	python_msg=" (disabled)"
-elif test "x$python_msg" != "x"; then
-	python_msg=" ($python_msg)"
-fi
 
 LIBSWO_VERSION_PACKAGE_MAJOR=libswo_version_package_major
 LIBSWO_VERSION_PACKAGE_MINOR=libswo_version_package_minor
