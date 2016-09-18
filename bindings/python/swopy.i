@@ -163,6 +163,9 @@ static PyObject *packet_object(const libswo::Packet &packet)
 	tmp = (void *)&packet;
 
 	switch (packet.get_type()) {
+	case libswo::PACKET_TYPE_UNKNOWN:
+		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__Unknown, 0);
+		break;
 	case libswo::PACKET_TYPE_SYNC:
 		ret = SWIG_NewPointerObj(tmp,
 			SWIGTYPE_p_libswo__Synchronization, 0);
@@ -191,9 +194,6 @@ static PyObject *packet_object(const libswo::Packet &packet)
 		break;
 	case libswo::PACKET_TYPE_HW:
 		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__Hardware, 0);
-		break;
-	case libswo::PACKET_TYPE_UNKNOWN:
-		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__Unknown, 0);
 		break;
 	default:
 		ret = NULL;

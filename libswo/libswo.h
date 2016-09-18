@@ -70,24 +70,24 @@ enum libswo_log_level {
 
 /** Packet types. */
 enum libswo_packet_type {
-	/** Synchronization packet. */
-	LIBSWO_PACKET_TYPE_SYNC = 0,
-	/** Overflow packet. */
-	LIBSWO_PACKET_TYPE_OVERFLOW = 1,
-	/** Local timestamp packet. */
-	LIBSWO_PACKET_TYPE_LTS = 2,
-	/** Global timestamp (GTS1) packet. */
-	LIBSWO_PACKET_TYPE_GTS1 = 3,
-	/** Global timestamp (GTS2) packet. */
-	LIBSWO_PACKET_TYPE_GTS2 = 4,
-	/** Extension packet. */
-	LIBSWO_PACKET_TYPE_EXT = 5,
-	/** Instrumentation packet. */
-	LIBSWO_PACKET_TYPE_INST = 6,
-	/** Hardware source packet. */
-	LIBSWO_PACKET_TYPE_HW = 7,
 	/** Unknown data packet. */
-	LIBSWO_PACKET_TYPE_UNKNOWN = 8
+	LIBSWO_PACKET_TYPE_UNKNOWN = 0,
+	/** Synchronization packet. */
+	LIBSWO_PACKET_TYPE_SYNC = 1,
+	/** Overflow packet. */
+	LIBSWO_PACKET_TYPE_OVERFLOW = 2,
+	/** Local timestamp packet. */
+	LIBSWO_PACKET_TYPE_LTS = 3,
+	/** Global timestamp (GTS1) packet. */
+	LIBSWO_PACKET_TYPE_GTS1 = 4,
+	/** Global timestamp (GTS2) packet. */
+	LIBSWO_PACKET_TYPE_GTS2 = 5,
+	/** Extension packet. */
+	LIBSWO_PACKET_TYPE_EXT = 6,
+	/** Instrumentation packet. */
+	LIBSWO_PACKET_TYPE_INST = 7,
+	/** Hardware source packet. */
+	LIBSWO_PACKET_TYPE_HW = 8
 };
 
 /** Local timestamp relation information. */
@@ -143,6 +143,20 @@ struct libswo_packet_any {
 	 *
 	 * Interpretation of this field depends on the specific packet type.
 	 */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+};
+
+/**
+ * Unknown data packet.
+ *
+ * This packet represents data which could not be decoded.
+ */
+struct libswo_packet_unknown {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size in bytes. */
+	size_t size;
+	/** Packet data. */
 	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
 };
 
@@ -267,26 +281,14 @@ struct libswo_packet_hw {
 	uint32_t value;
 };
 
-/**
- * Unknown data packet.
- *
- * This packet represents data which could not be decoded.
- */
-struct libswo_packet_unknown {
-	/** Packet type. */
-	enum libswo_packet_type type;
-	/** Packet size in bytes. */
-	size_t size;
-	/** Packet data. */
-	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
-};
-
 /** Union of all packet types. */
 union libswo_packet {
 	/** Packet type. */
 	enum libswo_packet_type type;
 	/** Common fields packet. */
 	struct libswo_packet_any any;
+	/** Unknown data packet. */
+	struct libswo_packet_unknown unknown;
 	/** Synchronization packet. */
 	struct libswo_packet_sync sync;
 	/** Overflow packet. */
@@ -303,8 +305,6 @@ union libswo_packet {
 	struct libswo_packet_inst inst;
 	/** Hardware source packet. */
 	struct libswo_packet_hw hw;
-	/** Unknown data packet. */
-	struct libswo_packet_unknown unknown;
 };
 
 /**

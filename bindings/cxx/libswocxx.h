@@ -41,6 +41,7 @@ enum LogLevel {
 };
 
 enum PacketType {
+	PACKET_TYPE_UNKNOWN = LIBSWO_PACKET_TYPE_UNKNOWN,
 	PACKET_TYPE_SYNC = LIBSWO_PACKET_TYPE_SYNC,
 	PACKET_TYPE_OVERFLOW = LIBSWO_PACKET_TYPE_OVERFLOW,
 	PACKET_TYPE_LTS = LIBSWO_PACKET_TYPE_LTS,
@@ -48,8 +49,7 @@ enum PacketType {
 	PACKET_TYPE_GTS2 = LIBSWO_PACKET_TYPE_GTS2,
 	PACKET_TYPE_EXT = LIBSWO_PACKET_TYPE_EXT,
 	PACKET_TYPE_INST = LIBSWO_PACKET_TYPE_INST,
-	PACKET_TYPE_HW = LIBSWO_PACKET_TYPE_HW,
-	PACKET_TYPE_UNKNOWN = LIBSWO_PACKET_TYPE_UNKNOWN
+	PACKET_TYPE_HW = LIBSWO_PACKET_TYPE_HW
 };
 
 enum LocalTimestampRelation {
@@ -101,6 +101,15 @@ public:
 typedef int (*DecoderCallback)(const Packet &packet, void *user_data);
 typedef int (*LogCallback)(enum LogLevel level, const std::string &message,
 		void *user_data);
+
+class LIBSWO_API Unknown : public PayloadPacket
+{
+public:
+	Unknown(const struct libswo_packet_unknown *packet);
+	Unknown(const union libswo_packet *packet);
+
+	const string to_string(void) const;
+};
 
 class LIBSWO_API Synchronization : public Packet
 {
@@ -190,15 +199,6 @@ public:
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
-
-	const string to_string(void) const;
-};
-
-class LIBSWO_API Unknown : public PayloadPacket
-{
-public:
-	Unknown(const struct libswo_packet_unknown *packet);
-	Unknown(const union libswo_packet *packet);
 
 	const string to_string(void) const;
 };
