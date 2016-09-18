@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -45,6 +47,18 @@ bool GlobalTimestamp1::get_clkch(void) const
 bool GlobalTimestamp1::get_wrap(void) const
 {
 	return _packet.gts1.wrap;
+}
+
+const std::string GlobalTimestamp1::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Global timestamp (GTS1) (wrap = " << get_wrap();
+	ss << ", clkch = " << get_clkch();
+	ss << ", value = " << std::hex << get_value();
+	ss << ", size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }

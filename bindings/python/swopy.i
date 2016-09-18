@@ -57,6 +57,8 @@ static int swig_exception_code(int code)
 }
 %}
 
+%rename(__str__) libswo::Packet::to_string;
+
 %pybuffer_binary(const uint8_t *data, size_t length)
 void libswo::Context::feed(const uint8_t *data, size_t length);
 

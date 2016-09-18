@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -30,6 +32,15 @@ Unknown::Unknown(const struct libswo_packet_unknown *packet)
 Unknown::Unknown(const union libswo_packet *packet)
 {
 	_packet = *packet;
+}
+
+const std::string Unknown::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Unknown data (size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }

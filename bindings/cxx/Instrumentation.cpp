@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -46,6 +48,17 @@ const vector<uint8_t> Instrumentation::get_payload(void) const
 uint32_t Instrumentation::get_value(void) const
 {
 	return _packet.inst.value;
+}
+
+const std::string Instrumentation::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Instrumentation (address = " << (unsigned int)get_address();
+	ss << ", value = " << std::hex << get_value();
+	ss << ", size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }

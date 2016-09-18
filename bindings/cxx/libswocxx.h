@@ -85,6 +85,7 @@ public:
 
 	enum PacketType get_type(void) const;
 	size_t get_size(void) const;
+	virtual const string to_string(void) const = 0;
 protected:
 	union libswo_packet _packet;
 };
@@ -106,6 +107,8 @@ class LIBSWO_API Synchronization : public Packet
 public:
 	Synchronization(const struct libswo_packet_sync *packet);
 	Synchronization(const union libswo_packet *packet);
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API Overflow : public PayloadPacket
@@ -113,6 +116,8 @@ class LIBSWO_API Overflow : public PayloadPacket
 public:
 	Overflow(const struct libswo_packet_of *packet);
 	Overflow(const union libswo_packet *packet);
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API LocalTimestamp : public PayloadPacket
@@ -123,6 +128,8 @@ public:
 
 	enum LocalTimestampRelation get_relation() const;
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API GlobalTimestamp1 : public PayloadPacket
@@ -134,6 +141,8 @@ public:
 	uint32_t get_value(void) const;
 	bool get_clkch(void) const;
 	bool get_wrap(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API GlobalTimestamp2 : public PayloadPacket
@@ -143,6 +152,8 @@ public:
 	GlobalTimestamp2(const union libswo_packet *packet);
 
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API Extension : public PayloadPacket
@@ -153,6 +164,8 @@ public:
 
 	enum ExtensionSource get_source(void) const;
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API Instrumentation : public PayloadPacket
@@ -164,6 +177,8 @@ public:
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API Hardware : public PayloadPacket
@@ -175,6 +190,8 @@ public:
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_API Unknown : public PayloadPacket
@@ -182,6 +199,8 @@ class LIBSWO_API Unknown : public PayloadPacket
 public:
 	Unknown(const struct libswo_packet_unknown *packet);
 	Unknown(const union libswo_packet *packet);
+
+	const string to_string(void) const;
 };
 
 class LIBSWO_PRIV DecoderCallbackHelper

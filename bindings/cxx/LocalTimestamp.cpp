@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -40,6 +42,35 @@ uint32_t LocalTimestamp::get_value(void) const
 enum LocalTimestampRelation LocalTimestamp::get_relation(void) const
 {
 	return static_cast<enum LocalTimestampRelation>(_packet.lts.relation);
+}
+
+const std::string LocalTimestamp::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Local timestamp (relation = ";
+
+	switch (get_relation()) {
+	case LTS_REL_SYNC:
+		ss << "synchronous";
+		break;
+	case LTS_REL_TS:
+		ss << "timestamp delayed";
+		break;
+	case LTS_REL_SRC:
+		ss << "data delayed";
+		break;
+	case LTS_REL_BOTH:
+		ss << "data and timestamp delayed";
+		break;
+	default:
+		ss << "unknown";
+	}
+
+	ss << ", value = " << std::hex << get_value();
+	ss << ", size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }

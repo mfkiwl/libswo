@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -45,6 +47,17 @@ uint8_t Hardware::get_address(void) const
 uint32_t Hardware::get_value(void) const
 {
 	return _packet.hw.value;
+}
+
+const std::string Hardware::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Hardware source (address = " << (unsigned int)get_address();
+	ss << ", value = " << std::hex << get_value();
+	ss << ", size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }

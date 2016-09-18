@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -30,6 +32,20 @@ Synchronization::Synchronization(const struct libswo_packet_sync *packet)
 Synchronization::Synchronization(const union libswo_packet *packet)
 {
 	_packet = *packet;
+}
+
+const std::string Synchronization::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Synchronization (size = ";
+
+	if (get_size() % 8 > 0)
+		ss << get_size() << " bits)";
+	else
+		ss << get_size() / 8 << " bytes)";
+
+	return ss.str();
 }
 
 }

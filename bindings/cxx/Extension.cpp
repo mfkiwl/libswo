@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sstream>
+
 #include "libswocxx.h"
 
 namespace libswo
@@ -40,6 +42,29 @@ enum ExtensionSource Extension::get_source(void) const
 uint32_t Extension::get_value(void) const
 {
 	return _packet.ext.value;
+}
+
+const std::string Extension::to_string(void) const
+{
+	std::stringstream ss;
+
+	ss << "Extension (source = ";
+
+	switch (get_source()) {
+	case EXT_SRC_ITM:
+		ss << "ITM";
+		break;
+	case EXT_SRC_HW:
+		ss << "HW";
+		break;
+	default:
+		ss << "unknown";
+	}
+
+	ss << ", value = " << std::hex << get_value();
+	ss << ", size = " << get_size() << " bytes)";
+
+	return ss.str();
 }
 
 }
