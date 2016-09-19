@@ -122,7 +122,10 @@ enum libswo_decoder_flags {
 };
 
 /** Maximum payload size of a packet in bytes. */
-#define LIBSWO_MAX_PAYLOAD_SIZE	4
+#define LIBSWO_MAX_PAYLOAD_SIZE		4
+
+/** Maximum address of a source packet. */
+#define LIBSWO_MAX_SOURCE_ADDRESS	32
 
 /**
  * Common fields packet.
