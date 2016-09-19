@@ -204,6 +204,24 @@ static int packet_callback(struct libswo_context *ctx,
 	case LIBSWO_PACKET_TYPE_UNKNOWN:
 		tmp = new Unknown(packet);
 		break;
+	case LIBSWO_PACKET_TYPE_DWT_EVTCNT:
+		tmp = new EventCounter(packet);
+		break;
+	case LIBSWO_PACKET_TYPE_DWT_EXCTRACE:
+		tmp = new ExceptionTrace(packet);
+		break;
+	case LIBSWO_PACKET_TYPE_DWT_PC_SAMPLE:
+		tmp = new PCSample(packet);
+		break;
+	case LIBSWO_PACKET_TYPE_DWT_PC_VALUE:
+		tmp = new PCValue(packet);
+		break;
+	case LIBSWO_PACKET_TYPE_DWT_ADDR_OFFSET:
+		tmp = new AddressOffset(packet);
+		break;
+	case LIBSWO_PACKET_TYPE_DWT_DATA_VALUE:
+		tmp = new DataValue(packet);
+		break;
 	default:
 		return LIBSWO_ERR;
 	}

@@ -49,7 +49,13 @@ enum PacketType {
 	PACKET_TYPE_GTS2 = LIBSWO_PACKET_TYPE_GTS2,
 	PACKET_TYPE_EXT = LIBSWO_PACKET_TYPE_EXT,
 	PACKET_TYPE_INST = LIBSWO_PACKET_TYPE_INST,
-	PACKET_TYPE_HW = LIBSWO_PACKET_TYPE_HW
+	PACKET_TYPE_HW = LIBSWO_PACKET_TYPE_HW,
+	PACKET_TYPE_DWT_EVTCNT = LIBSWO_PACKET_TYPE_DWT_EVTCNT,
+	PACKET_TYPE_DWT_EXCTRACE = LIBSWO_PACKET_TYPE_DWT_EXCTRACE,
+	PACKET_TYPE_DWT_PC_SAMPLE = LIBSWO_PACKET_TYPE_DWT_PC_SAMPLE,
+	PACKET_TYPE_DWT_PC_VALUE = LIBSWO_PACKET_TYPE_DWT_PC_VALUE,
+	PACKET_TYPE_DWT_ADDR_OFFSET = LIBSWO_PACKET_TYPE_DWT_ADDR_OFFSET,
+	PACKET_TYPE_DWT_DATA_VALUE = LIBSWO_PACKET_TYPE_DWT_DATA_VALUE
 };
 
 enum LocalTimestampRelation {
@@ -62,6 +68,13 @@ enum LocalTimestampRelation {
 enum ExtensionSource {
 	EXT_SRC_ITM = LIBSWO_EXT_SRC_ITM,
 	EXT_SRC_HW = LIBSWO_EXT_SRC_HW
+};
+
+enum ExceptionTraceFunction {
+	EXCTRACE_FUNC_RESERVED = LIBSWO_EXCTRACE_FUNC_RESERVED,
+	EXCTRACE_FUNC_ENTER = LIBSWO_EXCTRACE_FUNC_ENTER,
+	EXCTRACE_FUNC_EXIT = LIBSWO_EXCTRACE_FUNC_EXIT,
+	EXCTRACE_FUNC_RETURN = LIBSWO_EXCTRACE_FUNC_RETURN
 };
 
 enum DecoderFlags {
@@ -199,6 +212,83 @@ public:
 	uint8_t get_address(void) const;
 	const vector<uint8_t> get_payload(void) const;
 	uint32_t get_value(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API EventCounter : public Hardware
+{
+public:
+	EventCounter(const struct libswo_packet_dwt_evtcnt *packet);
+	EventCounter(const union libswo_packet *packet);
+
+	bool get_cpi(void) const;
+	bool get_exc(void) const;
+	bool get_sleep(void) const;
+	bool get_lsu(void) const;
+	bool get_fold(void) const;
+	bool get_cyc(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API ExceptionTrace : public Hardware
+{
+public:
+	ExceptionTrace(const struct libswo_packet_dwt_exctrace *packet);
+	ExceptionTrace(const union libswo_packet *packet);
+
+	uint16_t get_exception(void) const;
+	enum ExceptionTraceFunction get_function(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API PCSample : public Hardware
+{
+public:
+	PCSample(const struct libswo_packet_dwt_pc_sample *packet);
+	PCSample(const union libswo_packet *packet);
+
+	bool get_sleep(void) const;
+	uint32_t get_pc(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API PCValue : public Hardware
+{
+public:
+	PCValue(const struct libswo_packet_dwt_pc_value *packet);
+	PCValue(const union libswo_packet *packet);
+
+	uint8_t get_comparator(void) const;
+	uint32_t get_pc(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API AddressOffset : public Hardware
+{
+public:
+	AddressOffset(const struct libswo_packet_dwt_addr_offset *packet);
+	AddressOffset(const union libswo_packet *packet);
+
+	uint8_t get_comparator(void) const;
+	uint16_t get_offset(void) const;
+
+	const string to_string(void) const;
+};
+
+class LIBSWO_API DataValue : public Hardware
+{
+public:
+	DataValue(const struct libswo_packet_dwt_data_value *packet);
+	DataValue(const union libswo_packet *packet);
+
+	bool get_wnr(void) const;
+	uint8_t get_comparator(void) const;
+	uint32_t get_data_value(void) const;
 
 	const string to_string(void) const;
 };

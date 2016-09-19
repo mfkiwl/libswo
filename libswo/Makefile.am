@@ -23,6 +23,7 @@ libswo_la_SOURCES = \
 	buffer.c \
 	core.c \
 	decoder.c \
+	dwt.c \
 	error.c \
 	log.c \
 	version.c

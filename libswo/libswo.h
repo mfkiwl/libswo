@@ -87,7 +87,19 @@ enum libswo_packet_type {
 	/** Instrumentation packet. */
 	LIBSWO_PACKET_TYPE_INST = 7,
 	/** Hardware source packet. */
-	LIBSWO_PACKET_TYPE_HW = 8
+	LIBSWO_PACKET_TYPE_HW = 8,
+	/** DWT: Event counter packet. */
+	LIBSWO_PACKET_TYPE_DWT_EVTCNT = 16,
+	/** DWT: Exception trace packet. */
+	LIBSWO_PACKET_TYPE_DWT_EXCTRACE = 17,
+	/** DWT: Periodic PC sample packet. */
+	LIBSWO_PACKET_TYPE_DWT_PC_SAMPLE = 18,
+	/** DWT: Data trace PC value packet. */
+	LIBSWO_PACKET_TYPE_DWT_PC_VALUE = 19,
+	/** DWT: Data trace address offset packet. */
+	LIBSWO_PACKET_TYPE_DWT_ADDR_OFFSET = 20,
+	/** DWT: Data trace data value packet. */
+	LIBSWO_PACKET_TYPE_DWT_DATA_VALUE = 21
 };
 
 /** Local timestamp relation information. */
@@ -119,6 +131,18 @@ enum libswo_decoder_flags {
 	 * packets as unknown data.
 	 */
 	LIBSWO_DF_EOS = (1 << 0)
+};
+
+/** Exception trace functions. */
+enum libswo_exctrace_function {
+	/** Reserved. */
+	LIBSWO_EXCTRACE_FUNC_RESERVED = 0,
+	/** Enter exception. */
+	LIBSWO_EXCTRACE_FUNC_ENTER = 1,
+	/** Exit exception. */
+	LIBSWO_EXCTRACE_FUNC_EXIT = 2,
+	/** Return to exception. */
+	LIBSWO_EXCTRACE_FUNC_RETURN = 3
 };
 
 /** Maximum payload size of a packet in bytes. */
@@ -284,6 +308,136 @@ struct libswo_packet_hw {
 	uint32_t value;
 };
 
+/** DWT: Event counter packet. */
+struct libswo_packet_dwt_evtcnt {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Indicates whether the CPICNT value wrapped around to zero. */
+	bool cpi;
+	/** Indicates whether the EXCCNT value wrapped around to zero. */
+	bool exc;
+	/** Indicates whether the SLEEPCNT value wrapped around to zero. */
+	bool sleep;
+	/** Indicates whether the LSUCNT value wrapped around to zero. */
+	bool lsu;
+	/** Indicates whether the FOLDCNT value wrapped around to zero. */
+	bool fold;
+	/** Indicates whether the CYCCNT value wrapped around to zero. */
+	bool cyc;
+};
+
+/** DWT: Exception trace packet. */
+struct libswo_packet_dwt_exctrace {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Exception number. */
+	uint16_t exception;
+	/** Action taken by the processor. */
+	enum libswo_exctrace_function function;
+};
+
+/** DWT: Periodic PC sample packet. */
+struct libswo_packet_dwt_pc_sample {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Indicates whether the processor is in sleep mode. */
+	bool sleep;
+	/** Program counter (PC) value. */
+	uint32_t pc;
+};
+
+/** DWT: Data trace PC value packet. */
+struct libswo_packet_dwt_pc_value {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Number of the comparator that generated the packet. */
+	uint8_t cmpn;
+	/** Program counter (PC) value. */
+	uint32_t pc;
+};
+
+/** DWT: Data trace address offset packet. */
+struct libswo_packet_dwt_addr_offset {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Number of the comparator that generated the packet. */
+	uint8_t cmpn;
+	/** Address offset. */
+	uint16_t offset;
+};
+
+/** DWT: Data trace data value packet. */
+struct libswo_packet_dwt_data_value {
+	/** Packet type. */
+	enum libswo_packet_type type;
+	/** Packet size including the header in bytes. */
+	size_t size;
+	/** Packet data. */
+	uint8_t data[1 + LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Address. */
+	uint8_t address;
+	/** Hardware source data. */
+	uint8_t payload[LIBSWO_MAX_PAYLOAD_SIZE];
+	/** Integer representation of the payload. */
+	uint32_t value;
+	/** Indicates whether it was a write or read access. */
+	bool wnr;
+	/** Number of the comparator that generated the packet. */
+	uint8_t cmpn;
+	/** Data value. */
+	uint32_t data_value;
+};
+
 /** Union of all packet types. */
 union libswo_packet {
 	/** Packet type. */
@@ -308,6 +462,18 @@ union libswo_packet {
 	struct libswo_packet_inst inst;
 	/** Hardware source packet. */
 	struct libswo_packet_hw hw;
+	/** DWT: Event counter packet. */
+	struct libswo_packet_dwt_evtcnt evtcnt;
+	/** DWT: Exception trace packet. */
+	struct libswo_packet_dwt_exctrace exctrace;
+	/** DWT: Periodic PC sample packet. */
+	struct libswo_packet_dwt_pc_sample pc_sample;
+	/** DWT: Data trace PC value packet. */
+	struct libswo_packet_dwt_pc_value pc_value;
+	/** DWT: Data trace address offset packet. */
+	struct libswo_packet_dwt_addr_offset addr_offset;
+	/** DWT: Data trace data value packet. */
+	struct libswo_packet_dwt_data_value data_value;
 };
 
 /**

@@ -77,6 +77,11 @@ LIBSWO_PRIV bool buffer_peek(const struct libswo_context *ctx, uint8_t *buffer,
 LIBSWO_PRIV bool buffer_remove(struct libswo_context *ctx, size_t length);
 LIBSWO_PRIV void buffer_flush(struct libswo_context *ctx);
 
+/*--- dwt.c -----------------------------------------------------------------*/
+
+LIBSWO_PRIV bool dwt_decode_packet(struct libswo_context *ctx,
+		const struct libswo_packet_hw *hw);
+
 /*--- log.c -----------------------------------------------------------------*/
 
 LIBSWO_PRIV int log_vprintf(struct libswo_context *ctx,

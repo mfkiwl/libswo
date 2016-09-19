@@ -419,22 +419,25 @@ static bool decode_inst_packet(struct libswo_context *ctx, uint8_t header)
 static bool decode_hw_packet(struct libswo_context *ctx, uint8_t header)
 {
 	uint8_t payload_size;
+	struct libswo_packet_hw hw;
 
 	payload_size = 1 << ((header & SRC_SIZE_MASK) - 1);
 
-	if (!buffer_peek(ctx, ctx->packet.hw.payload, payload_size, 1)) {
+	if (!buffer_peek(ctx, hw.payload, payload_size, 1)) {
 		log_dbg(ctx, "Not enough bytes available to decode hardware "
 			"source packet.");
 		return false;
 	}
 
-	ctx->packet.type = LIBSWO_PACKET_TYPE_HW;
-	ctx->packet.hw.size = payload_size + 1;
-	ctx->packet.hw.address = (header & SRC_ADDR_MASK) >> SRC_ADDR_OFFSET;
-	ctx->packet.hw.value = decode_payload(ctx->packet.hw.payload,
-		payload_size);
+	hw.type = LIBSWO_PACKET_TYPE_HW;
+	hw.size = payload_size + 1;
+	hw.address = (header & SRC_ADDR_MASK) >> SRC_ADDR_OFFSET;
+	hw.value = decode_payload(hw.payload, payload_size);
 
-	log_dbg(ctx, "Hardware source packet decoded.");
+	if (!dwt_decode_packet(ctx, &hw)) {
+		log_dbg(ctx, "Hardware source packet decoded.");
+		ctx->packet.hw = hw;
+	}
 
 	return true;
 }

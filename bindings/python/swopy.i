@@ -195,6 +195,27 @@ static PyObject *packet_object(const libswo::Packet &packet)
 	case libswo::PACKET_TYPE_HW:
 		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__Hardware, 0);
 		break;
+	case libswo::PACKET_TYPE_DWT_EVTCNT:
+		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__EventCounter,
+			0);
+		break;
+	case libswo::PACKET_TYPE_DWT_EXCTRACE:
+		ret = SWIG_NewPointerObj(tmp,
+			SWIGTYPE_p_libswo__ExceptionTrace, 0);
+		break;
+	case libswo::PACKET_TYPE_DWT_PC_SAMPLE:
+		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__PCSample, 0);
+		break;
+	case libswo::PACKET_TYPE_DWT_PC_VALUE:
+		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__PCValue, 0);
+		break;
+	case libswo::PACKET_TYPE_DWT_ADDR_OFFSET:
+		ret = SWIG_NewPointerObj(tmp,
+			SWIGTYPE_p_libswo__AddressOffset, 0);
+		break;
+	case libswo::PACKET_TYPE_DWT_DATA_VALUE:
+		ret = SWIG_NewPointerObj(tmp, SWIGTYPE_p_libswo__DataValue, 0);
+		break;
 	default:
 		ret = NULL;
 	}

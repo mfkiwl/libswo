@@ -20,8 +20,12 @@
 lib_LTLIBRARIES = libswocxx.la
 
 libswocxx_la_SOURCES = \
+	AddressOffset.cpp \
 	Context.cpp \
+	DataValue.cpp \
 	Error.cpp \
+	EventCounter.cpp \
+	ExceptionTrace.cpp \
 	Extension.cpp \
 	GlobalTimestamp1.cpp \
 	GlobalTimestamp2.cpp \
@@ -31,6 +35,8 @@ libswocxx_la_SOURCES = \
 	Overflow.cpp \
 	Packet.cpp \
 	PayloadPacket.cpp \
+	PCSample.cpp \
+	PCValue.cpp \
 	Synchronization.cpp \
 	Unknown.cpp \
 	Version.cpp
