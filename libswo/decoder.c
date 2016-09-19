@@ -307,6 +307,10 @@ static bool decode_gts1_packet(struct libswo_context *ctx)
 		else
 			ctx->packet.gts1.wrap = false;
 
+		if (value & ~(GTS1_WRAP_MASK | GTS1_CLKCH_MASK | GTS1_TS_MASK))
+			log_warn(ctx, "Global timestamp (GTS1) packet "
+				"contains invalid trailing bit.");
+
 		log_dbg(ctx, "Global timestamp (GTS1) packet decoded.");
 		return true;
 	}
