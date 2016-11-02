@@ -85,17 +85,9 @@ LIBSWO_SET_PACKAGE_VERSION([LIBSWO_VERSION_PACKAGE], [AC_PACKAGE_VERSION])
 # Libtool interface version of libswo. This is not the same as the package
 # version. For information about the versioning system of libtool, see:
 # http://www.gnu.org/software/libtool/manual/libtool.html#Libtool-versioning
-LIBSWO_VERSION_LIB_CURRENT=0
-LIBSWO_VERSION_LIB_REVISION=0
-LIBSWO_VERSION_LIB_AGE=0
-LIBSWO_VERSION_LIB="$LIBSWO_VERSION_LIB_CURRENT:$LIBSWO_VERSION_LIB_REVISION:$LIBSWO_VERSION_LIB_AGE"
+LIBSWO_SET_LIBRARY_VERSION([LIBSWO_VERSION_LIBRARY], [0:0:0])
 
-AC_SUBST(LIBSWO_VERSION_LIB_CURRENT)
-AC_SUBST(LIBSWO_VERSION_LIB_REVISION)
-AC_SUBST(LIBSWO_VERSION_LIB_AGE)
-AC_SUBST(LIBSWO_VERSION_LIB)
-
-LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIB"
+LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIBRARY"
 
 AC_SUBST([LIBSWO_LIB_LDFLAGS])
 
@@ -187,7 +179,7 @@ AC_OUTPUT
 echo
 echo "libswo configuration summary:"
 echo " - Package version ................ $LIBSWO_VERSION_PACKAGE"
-echo " - Library version ................ $LIBSWO_VERSION_LIB"
+echo " - Library version ................ $LIBSWO_VERSION_LIBRARY"
 echo " - Installation prefix ............ $prefix"
 echo " - Building on .................... $build"
 echo " - Building for ................... $host"

@@ -61,3 +61,29 @@ AC_DEFUN([LIBSWO_SET_PACKAGE_VERSION], [
 	_LIBSWO_SET_PACKAGE_VERSION([$1], [$2],
 		m4_unquote(m4_split(m4_expand([$2]), [\.])))
 ])
+
+## _LIBSWO_SET_LIBRARY_VERSION(prefix, version, current, revision, age)
+##
+m4_define([_LIBSWO_SET_LIBRARY_VERSION], [
+	m4_assert([$# == 5])
+
+	AC_SUBST([$1_CURRENT], [$3])
+	AC_SUBST([$1_REVISION], [$4])
+	AC_SUBST([$1_AGE], [$5])
+	AC_SUBST([$1], [$2])
+])
+
+## LIBSWO_SET_LIBRARY_VERSION(prefix, version)
+##
+## Parse the library version string of the format <current>:<revision>:<age>
+## and set the variables <prefix>_{CURRENT,REVISION,AGE} to their corresponding
+## values.
+##
+## Set the variable <prefix> to the library version string.
+##
+AC_DEFUN([LIBSWO_SET_LIBRARY_VERSION], [
+	m4_assert([$# == 2])
+
+	_LIBSWO_SET_LIBRARY_VERSION([$1], [$2],
+		m4_unquote(m4_split([$2], [:])))
+])
