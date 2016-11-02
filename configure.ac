@@ -19,14 +19,7 @@
 
 AC_PREREQ([2.69])
 
-# Package version of libswo. This is not the same as the libtool interface
-# version.
-m4_define([libswo_version_package_major], [0])
-m4_define([libswo_version_package_minor], [1])
-m4_define([libswo_version_package_micro], [0])
-m4_define([libswo_version_package], [libswo_version_package_major.libswo_version_package_minor.libswo_version_package_micro])
-
-AC_INIT([libswo], [libswo_version_package], [BUG-REPORT-ADDRESS])
+AC_INIT([libswo], [0.1.0], [BUG-REPORT-ADDRESS])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -86,6 +79,8 @@ AC_MSG_RESULT([$HAVE_PYTHON_DEV])
 
 # Check for Python setuptools.
 AX_PYTHON_MODULE([setuptools])
+
+LIBSWO_SET_PACKAGE_VERSION([LIBSWO_VERSION_PACKAGE], [AC_PACKAGE_VERSION])
 
 # Libtool interface version of libswo. This is not the same as the package
 # version. For information about the versioning system of libtool, see:
@@ -171,16 +166,6 @@ fi
 
 AM_CONDITIONAL(BINDINGS_CXX, [test "x$BINDINGS_CXX" = "xyes"])
 AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" = "xyes"])
-
-LIBSWO_VERSION_PACKAGE_MAJOR=libswo_version_package_major
-LIBSWO_VERSION_PACKAGE_MINOR=libswo_version_package_minor
-LIBSWO_VERSION_PACKAGE_MICRO=libswo_version_package_micro
-LIBSWO_VERSION_PACKAGE=libswo_version_package
-
-AC_SUBST(LIBSWO_VERSION_PACKAGE_MAJOR)
-AC_SUBST(LIBSWO_VERSION_PACKAGE_MINOR)
-AC_SUBST(LIBSWO_VERSION_PACKAGE_MICRO)
-AC_SUBST(LIBSWO_VERSION_PACKAGE)
 
 # Use C99 compatible stdio functions on MinGW instead of the incompatible
 # functions provided by Microsoft.

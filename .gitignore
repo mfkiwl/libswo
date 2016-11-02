@@ -20,7 +20,8 @@ libswocxx.pc
 libswo.pc
 libtool
 *.lo
-m4
+m4/libtool.m4
+m4/lt*.m4
 Makefile
 Makefile.in
 *.o
