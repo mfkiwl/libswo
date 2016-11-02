@@ -41,9 +41,10 @@ libswocxx_la_SOURCES = \
 	Unknown.cpp \
 	Version.cpp
 
+libswocxx_la_CXXFLAGS = $(LIBSWO_CXXFLAGS) -I$(top_srcdir) \
+	-I$(top_builddir)/libswo
+libswocxx_la_LDFLAGS = $(LIBSWO_LDFLAGS) -no-undefined
 libswocxx_la_LIBADD = $(top_builddir)/libswo/libswo.la
-libswocxx_la_LDFLAGS = $(LIBSWO_LIB_LDFLAGS) -no-undefined
-libswocxx_la_CXXFLAGS = -I$(top_srcdir) -I$(top_builddir)/libswo
 
 library_includedir = $(includedir)/libswocxx
 library_include_HEADERS = libswocxx.h

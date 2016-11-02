@@ -31,8 +31,8 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 # Enable additional compiler warnings via -Wall and -Wextra. Use hidden
 # visibility for all non-static symbols by default with -fvisibility=hidden.
 C_CXX_FLAGS="-Wall -Wextra -Werror -fvisibility=hidden"
-CFLAGS="$CFLAGS $C_CXX_FLAGS"
-CXXFLAGS="$CXXFLAGS $C_CXX_FLAGS"
+LIBSWO_CFLAGS="$C_CXX_FLAGS"
+LIBSWO_CXXFLAGS="$C_CXX_FLAGS"
 
 # Checks for programs.
 AC_PROG_CC
@@ -87,9 +87,7 @@ LIBSWO_SET_PACKAGE_VERSION([LIBSWO_VERSION_PACKAGE], [AC_PACKAGE_VERSION])
 # http://www.gnu.org/software/libtool/manual/libtool.html#Libtool-versioning
 LIBSWO_SET_LIBRARY_VERSION([LIBSWO_VERSION_LIBRARY], [0:0:0])
 
-LIBSWO_LIB_LDFLAGS="-version-info $LIBSWO_VERSION_LIBRARY"
-
-AC_SUBST([LIBSWO_LIB_LDFLAGS])
+LIBSWO_LDFLAGS="-version-info $LIBSWO_VERSION_LIBRARY"
 
 AC_ARG_ENABLE(cxx, AS_HELP_STRING([--enable-cxx],
 	[enable C++ bindings [default=yes]]),
@@ -164,6 +162,10 @@ AM_CONDITIONAL(BINDINGS_PYTHON, [test "x$BINDINGS_PYTHON" = "xyes"])
 AS_CASE([$host_os], [mingw*],
 	[AC_DEFINE([__USE_MINGW_ANSI_STDIO], [1],
 		[Define to 1 to use C99 compatible stdio functions on MinGW.])])
+
+AC_SUBST([LIBSWO_CFLAGS])
+AC_SUBST([LIBSWO_CXXFLAGS])
+AC_SUBST([LIBSWO_LDFLAGS])
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([libswo/Makefile])

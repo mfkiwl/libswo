@@ -28,7 +28,8 @@ libswo_la_SOURCES = \
 	log.c \
 	version.c
 
-libswo_la_LDFLAGS = $(LIBSWO_LIB_LDFLAGS) -no-undefined
+libswo_la_CFLAGS = $(LIBSWO_CFLAGS)
+libswo_la_LDFLAGS = $(LIBSWO_LDFLAGS) -no-undefined
 
 library_includedir = $(includedir)/libswo
 library_include_HEADERS = \
