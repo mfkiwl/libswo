@@ -264,6 +264,12 @@ static int packet_callback(const libswo::Packet &packet, void *user_data)
 
 void Context::set_callback(PyObject *callback)
 {
+	if (callback == Py_None) {
+		Py_XDECREF(_py_callback);
+		libswo::Context::set_callback(NULL, NULL);
+		return;
+	}
+
 	if (!PyCallable_Check(callback))
 		throw libswo::Error(LIBSWO_ERR_ARG);
 
