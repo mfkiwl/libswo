@@ -41,6 +41,8 @@
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx,
 		enum libswo_log_level level)
@@ -64,6 +66,8 @@ LIBSWO_API int libswo_log_set_level(struct libswo_context *ctx,
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx,
 		enum libswo_log_level *level)
@@ -86,6 +90,8 @@ LIBSWO_API int libswo_log_get_level(const struct libswo_context *ctx,
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
 		libswo_log_callback callback, void *user_data)
@@ -121,6 +127,8 @@ LIBSWO_API int libswo_log_set_callback(struct libswo_context *ctx,
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR Other error conditions.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
 		const char *domain)
@@ -147,6 +155,8 @@ LIBSWO_API int libswo_log_set_domain(struct libswo_context *ctx,
  * @return A string which contains the current log domain on success, or NULL
  *         on failure. The string is null-terminated and must not be free'd by
  *         the caller.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API const char *libswo_log_get_domain(const struct libswo_context *ctx)
 {

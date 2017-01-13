@@ -41,6 +41,8 @@
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
  * @retval LIBSWO_ERR_MALLOC Memory allocation error.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
 		size_t buffer_size)
@@ -104,6 +106,8 @@ LIBSWO_API int libswo_init(struct libswo_context **ctx, uint8_t *buffer,
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_exit(struct libswo_context *ctx)
 {

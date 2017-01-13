@@ -30,6 +30,8 @@
  * Get the major version number of the libswo package.
  *
  * @return The major version number of the libswo package.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_package_get_major(void)
 {
@@ -40,6 +42,8 @@ LIBSWO_API int libswo_version_package_get_major(void)
  * Get the minor version number of the libswo package.
  *
  * @return The minor version number of the libswo package.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_package_get_minor(void)
 {
@@ -50,6 +54,8 @@ LIBSWO_API int libswo_version_package_get_minor(void)
  * Get the micro version number of the libswo package.
  *
  * @return The micro version number of the libswo package.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_package_get_micro(void)
 {
@@ -61,6 +67,8 @@ LIBSWO_API int libswo_version_package_get_micro(void)
  *
  * @return A string which contains the version number of the libswo package.
  *         The string is null-terminated and must not be free'd by the caller.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API const char *libswo_version_package_get_string(void)
 {
@@ -71,6 +79,8 @@ LIBSWO_API const char *libswo_version_package_get_string(void)
  * Get the <i>current</i> version number of the libswo libtool interface.
  *
  * @return The <i>current</i> version number of the libswo libtool interface.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_library_get_current(void)
 {
@@ -81,6 +91,8 @@ LIBSWO_API int libswo_version_library_get_current(void)
  * Get the <i>revision</i> version number of the libswo libtool interface.
  *
  * @return The <i>revision</i> version number of the libswo libtool interface.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_library_get_revision(void)
 {
@@ -91,6 +103,8 @@ LIBSWO_API int libswo_version_library_get_revision(void)
  * Get the <i>age</i> version number of the libswo libtool interface.
  *
  * @return The <i>age</i> version number of the libswo libtool interface.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_version_library_get_age(void)
 {
@@ -103,6 +117,8 @@ LIBSWO_API int libswo_version_library_get_age(void)
  * @return A string which contains the version number of the libswo libtool
  *         interface. The string is null-terminated and must not be free'd by
  *         the caller.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API const char *libswo_version_library_get_string(void)
 {

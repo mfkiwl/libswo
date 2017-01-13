@@ -33,6 +33,7 @@
  * @return A string which contains a description of the given error code, or
  *         the string <i>unknown error</i> if the error code is not known. The
  *         string is null-terminated and must not be free'd by the caller.
+ * @since 0.1.0
  */
 LIBSWO_API const char *libswo_strerror(int error_code)
 {
@@ -58,6 +59,8 @@ LIBSWO_API const char *libswo_strerror(int error_code)
  * @return A string which contains the name of the given error code, or the
  *         string <i>unknown error code</i> if the error code is not known. The
  *         string is null-terminated and must not be free'd by the caller.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API const char *libswo_strerror_name(int error_code)
 {

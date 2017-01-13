@@ -516,6 +516,8 @@ static int handle_packet(struct libswo_context *ctx)
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR Other error conditions.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
 		size_t length)
@@ -538,6 +540,8 @@ LIBSWO_API int libswo_feed(struct libswo_context *ctx, const uint8_t *buffer,
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR Other error conditions.
  * @retval LIBSWO_ERR_ARG Invalid arguments.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
 {
@@ -623,6 +627,8 @@ LIBSWO_API int libswo_decode(struct libswo_context *ctx, uint32_t flags)
  *
  * @retval LIBSWO_OK Success.
  * @retval LIBSWO_ERR_ARG Invalid argument.
+ *
+ * @since 0.1.0
  */
 LIBSWO_API int libswo_set_callback(struct libswo_context *ctx,
 		libswo_decoder_callback callback, void *user_data)
