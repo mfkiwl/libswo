@@ -31,5 +31,3 @@ endif
 if BINDINGS_PYTHON
 SUBDIRS += bindings/python
 endif
-
-EXTRA_DIST = Doxyfile

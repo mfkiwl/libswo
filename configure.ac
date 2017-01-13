@@ -175,6 +175,7 @@ AC_CONFIG_FILES([bindings/cxx/libswocxx.pc])
 AC_CONFIG_FILES([bindings/python/Makefile])
 AC_CONFIG_FILES([bindings/python/setup.py])
 AC_CONFIG_FILES([libswo.pc])
+AC_CONFIG_FILES([Doxyfile])
 
 AC_OUTPUT
 
