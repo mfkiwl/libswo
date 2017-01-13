@@ -20,6 +20,8 @@
 CXX_SRCDIR = $(top_srcdir)/bindings/cxx
 CXX_BUILDDIR = $(top_builddir)/bindings/cxx
 
+EXTRA_DIST = swopy.i __init__.py Context.h
+
 all-local: swopy build-lock
 
 # Generate Python package structure.
