@@ -32,8 +32,7 @@ libswo_la_CFLAGS = $(LIBSWO_CFLAGS)
 libswo_la_LDFLAGS = $(LIBSWO_LDFLAGS) -no-undefined
 
 library_includedir = $(includedir)/libswo
-library_include_HEADERS = \
-	libswo.h \
-	version.h
+library_include_HEADERS = libswo.h
 
+nodist_library_include_HEADERS = version.h
 noinst_HEADERS = libswo-internal.h
